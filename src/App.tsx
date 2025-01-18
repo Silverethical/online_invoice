@@ -17,7 +17,7 @@ const App = () => {
   return (
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
-        <main className="mt-[3%] grid gap-[24px]">
+        <main id="factor" className="mt-[3%] grid gap-[24px]">
           <FactorHeader />
           <FactorFooter />
         </main>
