@@ -6,12 +6,12 @@
 
 .container {
   width: 90vw;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 * {
-  font-family: "IRANSansX";
+  font-family: "IRANSansX" !important;
 
   // Enable font feature setting 'ss02' for Firefox
   -moz-font-feature-settings: "ss02";
@@ -24,4 +24,18 @@
 
   scroll-behavior: smooth;
 
+}
+
+
+// remove input arrays
+/* For Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
