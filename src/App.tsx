@@ -7,6 +7,7 @@ import { prefixer } from "stylis";
 import { CacheProvider } from "@emotion/react";
 
 import { theme } from "./theme";
+import FactorFooter from "./components/factorFooter/FactorFooter";
 const App = () => {
   const cacheRtl = createCache({
     key: "muirtl",
@@ -16,8 +17,9 @@ const App = () => {
   return (
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
-        <main className="mt-[3%]">
+        <main className="mt-[3%] grid gap-[24px]">
           <FactorHeader />
+          <FactorFooter />
         </main>
       </ThemeProvider>
     </CacheProvider>

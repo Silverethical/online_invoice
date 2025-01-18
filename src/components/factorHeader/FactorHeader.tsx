@@ -50,7 +50,10 @@ const FactorHeader = () => {
     "rounded-e-[10px] bg-gray-200 p-1 pr-2 border-none items-center w-[250px] text-center !hover:border-none";
 
   return (
-    <section className="container flex justify-center items-center flex-col gap-10">
+    <section
+      id="factor-header"
+      className="container flex justify-center items-center flex-col gap-10"
+    >
       <h1 className="font-[700] text-xl">فاکتور فروش رمیونا</h1>
 
       <form

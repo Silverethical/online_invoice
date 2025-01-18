@@ -41,9 +41,18 @@ input[type="number"] {
 }
 
 // MUI 
-.MuiInputBase-root {
-  input {
-    text-align: center;
+
+#factor-header {
+  .MuiInputBase-root {
+    input {
+      text-align: center;
+    }
+  }
+}
+
+.description-input {
+  >div {
+    border-radius: 10px;
   }
 }
 
