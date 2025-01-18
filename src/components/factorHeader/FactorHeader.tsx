@@ -1,10 +1,14 @@
 import Input from "@mui/material/Input";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 type inputDataType = {
   name: string;
   type: string;
   hint: string;
   inputMode?: "numeric";
+  showDatePicker?: boolean;
 }[];
 
 const rightSideInputs: inputDataType = [
@@ -17,6 +21,7 @@ const rightSideInputs: inputDataType = [
     name: "date",
     hint: "تاریخ",
     type: "text",
+    showDatePicker: true,
   },
 ];
 
@@ -38,7 +43,7 @@ const leftSideInputs: inputDataType = [
 const FactorHeader = () => {
   // className for header columns
   const headerColClassName = "flex flex-col gap-5";
-  const headerInputClassName = "flex items-center";
+  const headerInputClassName = "flex items-center relative";
   const inputHintClassName =
     "bg-green-700 p-2 w-[120px] flex justify-center rounded-s-[10px] text-white font-[600]";
   const inputClassName =
@@ -70,6 +75,14 @@ const FactorHeader = () => {
                   },
                 }}
               />
+              {item.showDatePicker && (
+                <DatePicker
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-right"
+                  className="absolute right-0"
+                />
+              )}
             </div>
           ))}
         </div>

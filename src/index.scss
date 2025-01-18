@@ -39,3 +39,35 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+// MUI 
+.MuiInputBase-root {
+  input {
+    text-align: center;
+  }
+}
+
+// date picker styles 
+.rmdp-container {
+  position: absolute;
+  left: 0;
+
+  input {
+    width: 250px;
+    height: 35px;
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: center;
+
+
+    &:focus {
+      border: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.ep-arrow {
+  display: none;
+}
