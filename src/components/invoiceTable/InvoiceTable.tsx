@@ -47,7 +47,7 @@ const InvoiceTable = ({
       width: 80,
       resizable: false,
       flex: 0.5,
-      cellClassName: "font-bold",
+      cellClassName: "font-bold id-cell",
     },
     {
       field: "product-name",
@@ -91,7 +91,11 @@ const InvoiceTable = ({
           }}
         >
           <Typography>مبلغ کل</Typography>
-          <Typography fontSize={12} fontWeight={900} className="bg-white text-black rounded-full p-1.5">
+          <Typography
+            fontSize={12}
+            fontWeight={900}
+            className="bg-white text-black rounded-full p-1.5"
+          >
             تومان
           </Typography>
         </div>
@@ -112,6 +116,11 @@ const InvoiceTable = ({
             border: 0,
             "& .MuiDataGrid-cell": {
               border: "1px solid #ccc",
+              borderTop: "none",
+              borderLeft: "none",
+            },
+            "& .id-cell": {
+              borderLeft: "1px solid #ccc",
             },
             "& .MuiDataGrid-columnHeader": {
               border: "1px solid #ccc",
@@ -122,7 +131,6 @@ const InvoiceTable = ({
               opacity: 0,
             },
           }}
-          // disableColumnResize={true}
           disableColumnSorting={true}
           disableRowSelectionOnClick={true}
           hideFooter={true}
