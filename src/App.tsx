@@ -10,6 +10,7 @@ import { theme } from "./theme";
 import FactorFooter from "./components/factorFooter/FactorFooter";
 import ColorPicker from "./components/colorPicker/ColorPicker";
 import { useState } from "react";
+import InvoiceTable from "./components/invoiceTable/InvoiceTable";
 const App = () => {
   const cacheRtl = createCache({
     key: "muirtl",
@@ -30,6 +31,7 @@ const App = () => {
         />
         <main id="factor" className="mt-[3%] grid gap-[24px]">
           <FactorHeader primaryColor={primaryColor} textColor={textColor} />
+          <InvoiceTable primaryColor={primaryColor} textColor={textColor} />
           <FactorFooter />
         </main>
       </ThemeProvider>
