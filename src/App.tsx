@@ -8,15 +8,26 @@ import { CacheProvider } from "@emotion/react";
 
 import { theme } from "./theme";
 import FactorFooter from "./components/factorFooter/FactorFooter";
+import ColorPicker from "./components/colorPicker/ColorPicker";
+import { useState } from "react";
 const App = () => {
   const cacheRtl = createCache({
     key: "muirtl",
     stylisPlugins: [prefixer, rtlPlugin],
   });
 
+  const [primaryColor, setPrimaryColor] = useState("");
+  const [textColor, setTextColor] = useState("");
+
   return (
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
+        <ColorPicker
+          primaryColor={primaryColor}
+          textColor={textColor}
+          setPrimaryColor={setPrimaryColor}
+          setTextColor={setTextColor}
+        />
         <main id="factor" className="mt-[3%] grid gap-[24px]">
           <FactorHeader />
           <FactorFooter />
