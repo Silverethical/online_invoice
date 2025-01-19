@@ -1,10 +1,7 @@
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import {
   GridRowsProp,
   DataGrid,
-  GridColDef,
-  MuiEvent,
-  GridCellEditStopParams,
   GridValidRowModel,
   GridCellModesModel,
   GridCellParams,
@@ -134,6 +131,10 @@ const InvoiceTable = ({
             },
             "& .MuiDataGrid-columnSeparator": {
               opacity: 0,
+            },
+            "& .MuiInputBase-input": {
+              textAlign: "center",
+              fontSize: 14,
             },
           }}
           // onCellEditStop={(params: GridCellEditStopParams, event: MuiEvent) => {
