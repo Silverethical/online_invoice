@@ -1,5 +1,11 @@
 import { Button, Paper } from "@mui/material";
-import { GridRowsProp, DataGrid, GridColDef } from "@mui/x-data-grid";
+import {
+  GridRowsProp,
+  DataGrid,
+  GridColDef,
+  MuiEvent,
+  GridCellEditStopParams,
+} from "@mui/x-data-grid";
 import { useState } from "react";
 
 type InvoiceTableProps = {
@@ -23,6 +29,10 @@ const initialRows: GridRowsProp = [
     "total-amount": "1000",
   },
 ];
+
+const calculateTotalAmount = (quantity: number, price: number) => {
+  return quantity * price;
+};
 
 const InvoiceTable = ({ primaryColor, textColor }: InvoiceTableProps) => {
   const [rows, setRows] = useState(initialRows);
@@ -49,20 +59,27 @@ const InvoiceTable = ({ primaryColor, textColor }: InvoiceTableProps) => {
       field: "id",
       headerName: "ردیف",
       align: "center",
+      headerAlign: "center",
       width: 80,
       resizable: false,
+      flex: 0.5,
+      headerClassName: `bg-[${primaryColor}] text-[${textColor}]`,
     },
     {
       field: "product-name",
       headerName: "نام کالا",
       align: "center",
+      headerAlign: "center",
+      flex: 2,
       editable: true,
     },
     {
       field: "quantity",
       headerName: "تعداد",
       align: "center",
+      headerAlign: "center",
       editable: true,
+      flex: 0.8,
       resizable: false,
     },
     // TODO: Add comma (render cell prop)
@@ -70,37 +87,58 @@ const InvoiceTable = ({ primaryColor, textColor }: InvoiceTableProps) => {
       field: "price",
       headerName: "قیمت واحد",
       align: "center",
+      headerAlign: "center",
+      flex: 1.5,
       editable: true,
     },
     {
       field: "total-amount",
       headerName: "مبلغ کل",
       align: "center",
+      headerAlign: "center",
+      flex: 2,
     },
   ];
 
   return (
     <section className="container">
       <div className="flex flex-col justify-center items-end gap-[10px]">
-        <Paper sx={{ width: "100%" }}>
-          <DataGrid
-            density="comfortable"
-            disableColumnFilter={true}
-            disableColumnMenu={true}
-            // disableColumnResize={true}
-            disableColumnSorting={true}
-            disableRowSelectionOnClick={true}
-            hideFooter={true}
-            editMode="row"
-            rows={rows}
-            columns={columns}
-            sx={{ border: 0 }}
-          />
-        </Paper>
+        <DataGrid
+          density="comfortable"
+          disableColumnFilter={true}
+          disableColumnMenu={true}
+          sx={{
+            width: "100%",
+            borderRadius: "10px",
+            border: 0,
+            "& .MuiDataGrid-cell": {
+              border: "1px solid #ccc",
+            },
+            "& .MuiDataGrid-columnHeader": {
+              border: "1px solid #ccc",
+              backgroundColor: primaryColor,
+              color: textColor,
+            },
+            "& .MuiDataGrid-columnSeparator": {
+              opacity: 0,
+            },
+          }}
+          // disableColumnResize={true}
+          disableColumnSorting={true}
+          disableRowSelectionOnClick={true}
+          hideFooter={true}
+          editMode="row"
+          rows={rows}
+          columns={columns}
+          onCellEditStop={(params: GridCellEditStopParams, event: MuiEvent) => {
+            console.log("ended");
+            console.log(event);
+          }}
+        />
         <Button
           sx={{
             borderRadius: "10px",
-            color:  "black",
+            color: "black",
             borderColor: "#ccc",
             "&:hover": {
               backgroundColor: primaryColor,
