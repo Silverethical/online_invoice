@@ -16,7 +16,7 @@ const App = () => {
     stylisPlugins: [prefixer, rtlPlugin],
   });
 
-  const [primaryColor, setPrimaryColor] = useState("");
+  const [primaryColor, setPrimaryColor] = useState("#16803C");
   const [textColor, setTextColor] = useState("");
 
   return (
