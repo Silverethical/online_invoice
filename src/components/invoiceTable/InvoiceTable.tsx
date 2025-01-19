@@ -7,6 +7,7 @@ import {
   GridCellEditStopParams,
   GridValidRowModel,
 } from "@mui/x-data-grid";
+import { columns } from "./data";
 
 type InvoiceTableProps = {
   primaryColor: string;
