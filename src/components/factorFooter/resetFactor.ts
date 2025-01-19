@@ -1,4 +1,11 @@
-export const resetFactor = () => {
+import { GridRowsProp } from "@mui/x-data-grid";
+import { initialRows } from "../invoiceTable/data";
+
+export const resetFactor = ({
+  setRows,
+}: {
+  setRows: React.Dispatch<React.SetStateAction<GridRowsProp>>;
+}) => {
   // reset all forms
   const forms = document.querySelectorAll("form");
   forms.forEach((form) => form.reset());
@@ -15,4 +22,7 @@ export const resetFactor = () => {
     "#factor-footer textarea",
   ) as HTMLTextAreaElement;
   if (textArea) textArea.value = "";
+
+  // reset rows
+  setRows(initialRows);
 };

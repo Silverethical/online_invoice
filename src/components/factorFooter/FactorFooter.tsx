@@ -1,8 +1,13 @@
 import { Button, TextField } from "@mui/material";
 import { downloadFactor } from "./downloadFactor";
 import { resetFactor } from "./resetFactor";
+import { GridRowsProp } from "@mui/x-data-grid";
 
-const FactorFooter = () => {
+const FactorFooter = ({
+  setRows,
+}: {
+  setRows: React.Dispatch<React.SetStateAction<GridRowsProp>>;
+}) => {
   return (
     <section id="factor-footer" className="container flex flex-col gap-10">
       <TextField
@@ -23,7 +28,7 @@ const FactorFooter = () => {
         <Button
           variant="contained"
           className="w-full !bg-red-600 !rounded-[10px]"
-          onClick={resetFactor}
+          onClick={() => resetFactor({ setRows })}
         >
           ریست فاکتور
         </Button>

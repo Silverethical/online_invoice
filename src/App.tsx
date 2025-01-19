@@ -48,7 +48,7 @@ const App = () => {
             primaryColor={primaryColor}
             textColor={textColor}
           />
-          <FactorFooter />
+          <FactorFooter setRows={setRows} />
         </main>
       </ThemeProvider>
     </CacheProvider>
