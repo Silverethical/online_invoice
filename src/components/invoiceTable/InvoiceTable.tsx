@@ -6,7 +6,11 @@ import {
   MuiEvent,
   GridCellEditStopParams,
   GridValidRowModel,
+  GridCellModesModel,
+  GridCellParams,
+  GridCellModes,
 } from "@mui/x-data-grid";
+import { useCallback, useState } from "react";
 import { columns } from "./data";
 
 type InvoiceTableProps = {
@@ -22,6 +26,63 @@ const InvoiceTable = ({
   rows,
   setRows,
 }: InvoiceTableProps) => {
+  const [cellModesModel, setCellModesModel] = useState<GridCellModesModel>({});
+
+  // enables single click edit
+  const handleCellClick = useCallback(
+    (params: GridCellParams, event: React.MouseEvent) => {
+      if (!params.isEditable) {
+        return;
+      }
+
+      // Ignore portal
+      if (
+        (event.target as any).nodeType === 1 &&
+        !event.currentTarget.contains(event.target as Element)
+      ) {
+        return;
+      }
+
+      setCellModesModel((prevModel) => {
+        return {
+          // Revert the mode of the other cells from other rows
+          ...Object.keys(prevModel).reduce(
+            (acc, id) => ({
+              ...acc,
+              [id]: Object.keys(prevModel[id]).reduce(
+                (acc2, field) => ({
+                  ...acc2,
+                  [field]: { mode: GridCellModes.View },
+                }),
+                {},
+              ),
+            }),
+            {},
+          ),
+          [params.id]: {
+            // Revert the mode of other cells in the same row
+            ...Object.keys(prevModel[params.id] || {}).reduce(
+              (acc, field) => ({
+                ...acc,
+                [field]: { mode: GridCellModes.View },
+              }),
+              {},
+            ),
+            [params.field]: { mode: GridCellModes.Edit },
+          },
+        };
+      });
+    },
+    [],
+  );
+
+  const handleCellModesModelChange = useCallback(
+    (newModel: GridCellModesModel) => {
+      setCellModesModel(newModel);
+    },
+    [],
+  );
+
   const handleAddNewRow = ({
     setRows,
   }: {
@@ -39,71 +100,6 @@ const InvoiceTable = ({
     ]);
   };
 
-  const columns: GridColDef[] = [
-    {
-      field: "id",
-      headerName: "ردیف",
-      align: "center",
-      headerAlign: "center",
-      width: 80,
-      resizable: false,
-      flex: 0.5,
-      cellClassName: "font-bold id-cell",
-    },
-    {
-      field: "product-name",
-      headerName: "نام کالا",
-      align: "center",
-      headerAlign: "center",
-      flex: 2,
-      editable: true,
-    },
-    {
-      field: "quantity",
-      headerName: "تعداد",
-      align: "center",
-      headerAlign: "center",
-      editable: true,
-      flex: 0.8,
-      resizable: false,
-    },
-    // TODO: Add comma (render cell prop)
-    {
-      field: "price",
-      headerName: "قیمت واحد",
-      align: "center",
-      headerAlign: "center",
-      flex: 1.5,
-      editable: true,
-    },
-    {
-      field: "total-amount",
-      align: "center",
-      headerAlign: "center",
-      flex: 2,
-      renderHeader: () => (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 4,
-          }}
-        >
-          <Typography>مبلغ کل</Typography>
-          <Typography
-            fontSize={12}
-            fontWeight={900}
-            className="bg-white text-black rounded-full p-1.5"
-          >
-            تومان
-          </Typography>
-        </div>
-      ),
-    },
-  ];
-
   return (
     <section className="container">
       <div className="flex flex-col justify-center items-end gap-[10px]">
@@ -111,6 +107,14 @@ const InvoiceTable = ({
           density="comfortable"
           disableColumnFilter={true}
           disableColumnMenu={true}
+          disableColumnSorting={true}
+          disableRowSelectionOnClick={true}
+          hideFooter={true}
+          rows={rows}
+          columns={columns}
+          cellModesModel={cellModesModel}
+          onCellModesModelChange={handleCellModesModelChange}
+          onCellClick={handleCellClick}
           sx={{
             width: "100%",
             borderRadius: "10px",
@@ -132,16 +136,10 @@ const InvoiceTable = ({
               opacity: 0,
             },
           }}
-          disableColumnSorting={true}
-          disableRowSelectionOnClick={true}
-          hideFooter={true}
-          editMode="row"
-          rows={rows}
-          columns={columns}
-          onCellEditStop={(params: GridCellEditStopParams, event: MuiEvent) => {
-            console.log("ended");
-            console.log(event);
-          }}
+          // onCellEditStop={(params: GridCellEditStopParams, event: MuiEvent) => {
+          //   console.log("ended");
+          //   console.log(event);
+          // }}
         />
         <Button
           sx={{
