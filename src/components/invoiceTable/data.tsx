@@ -1,3 +1,4 @@
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Typography } from "@mui/material";
 import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
 
@@ -58,7 +59,7 @@ export const columns: GridColDef[] = [
     editable: true,
     renderCell: (params) => (
       <div className="h-full flex items-center justify-center">
-        <Typography fontSize={14} >{params.value}</Typography>
+        <Typography fontSize={14}>{params.value}</Typography>
       </div>
     ),
   },
@@ -88,5 +89,20 @@ export const columns: GridColDef[] = [
         </Typography>
       </div>
     ),
+  },
+  {
+    field: "actions",
+    align: "center",
+    headerName: "عملیات",
+    headerAlign: "center",
+    cellClassName: "text-[14px]",
+    flex: 1,
+    renderCell(params) {
+      return (
+        <div className="h-full flex items-center justify-center">
+          <DeleteOutlineIcon sx={{ cursor: "pointer" }} />
+        </div>
+      );
+    },
   },
 ];
