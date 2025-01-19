@@ -27,7 +27,7 @@ export const columns: GridColDef[] = [
     width: 80,
     resizable: false,
     flex: 0.5,
-    cellClassName: "font-bold id-cell",
+    cellClassName: "font-bold id-cell text-[14px]",
   },
   {
     field: "product-name",
@@ -36,6 +36,7 @@ export const columns: GridColDef[] = [
     headerAlign: "center",
     flex: 2,
     editable: true,
+    cellClassName: "text-[14px]",
   },
   {
     field: "quantity",
@@ -45,6 +46,7 @@ export const columns: GridColDef[] = [
     editable: true,
     flex: 0.8,
     resizable: false,
+    cellClassName: "text-[14px]",
   },
   // TODO: Add comma (render cell prop)
   {
@@ -54,11 +56,17 @@ export const columns: GridColDef[] = [
     headerAlign: "center",
     flex: 1.5,
     editable: true,
+    renderCell: (params) => (
+      <div className="h-full flex items-center justify-center">
+        <Typography fontSize={14} >{params.value}</Typography>
+      </div>
+    ),
   },
   {
     field: "total-amount",
     align: "center",
     headerAlign: "center",
+    cellClassName: "text-[14px]",
     flex: 2,
     renderHeader: () => (
       <div
