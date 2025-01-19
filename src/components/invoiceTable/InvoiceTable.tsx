@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import {
   GridRowsProp,
   DataGrid,
@@ -77,10 +77,25 @@ const InvoiceTable = ({
     },
     {
       field: "total-amount",
-      headerName: "مبلغ کل",
       align: "center",
       headerAlign: "center",
       flex: 2,
+      renderHeader: () => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 4,
+          }}
+        >
+          <Typography>مبلغ کل</Typography>
+          <Typography fontSize={12} fontWeight={900} className="bg-white text-black rounded-full p-1.5">
+            تومان
+          </Typography>
+        </div>
+      ),
     },
   ];
 
