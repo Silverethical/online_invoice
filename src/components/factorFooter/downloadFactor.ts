@@ -7,7 +7,15 @@ export const downloadFactor = () => {
 
   const originalStyle = element.getAttribute("style"); // Backup original styles
 
-  // Apply temporary styles to fix white space
+  // Temporarily replace number inputs with text inputs
+  const numberInputs = document.querySelectorAll('input[type="number"]');
+  const originalTypes: any[] = [];
+  numberInputs.forEach((input: any) => {
+    originalTypes.push(input.type);
+    input.type = "text"; // Change to text to avoid spinners
+  });
+
+  // Apply temporary styles
   element.setAttribute(
     "style",
     `
@@ -26,18 +34,18 @@ export const downloadFactor = () => {
 
   toPng(element, {
     backgroundColor: "#fff",
-    filter: (node) => {
-      // Exclude elements with the 'exclude' class
-      return !node.classList?.contains("exclude");
-    },
+    filter: (node) => !node.classList?.contains("exclude"), // Exclude elements with 'exclude' class
   })
     .then((dataUrl) => {
-      // Restore original styles
+      // Restore original styles and input types
       if (originalStyle) {
         element.setAttribute("style", originalStyle);
       } else {
         element.removeAttribute("style");
       }
+      numberInputs.forEach(
+        (input: any, index) => (input.type = originalTypes[index]),
+      ); // Revert types
 
       // Download the image
       const link = document.createElement("a");
@@ -48,11 +56,14 @@ export const downloadFactor = () => {
     .catch((error) => {
       console.error("Error generating image:", error);
 
-      // Restore original styles in case of error
+      // Restore original styles and input types in case of error
       if (originalStyle) {
         element.setAttribute("style", originalStyle);
       } else {
         element.removeAttribute("style");
       }
+      numberInputs.forEach(
+        (input: any, index) => (input.type = originalTypes[index]),
+      ); // Revert types
     });
 };
