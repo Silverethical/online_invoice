@@ -29,7 +29,7 @@ const App = () => {
           setTextColor={setTextColor}
         />
         <main id="factor" className="mt-[3%] grid gap-[24px]">
-          <FactorHeader />
+          <FactorHeader primaryColor={primaryColor} textColor={textColor} />
           <FactorFooter />
         </main>
       </ThemeProvider>

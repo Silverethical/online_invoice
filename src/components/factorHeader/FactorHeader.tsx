@@ -40,7 +40,13 @@ const leftSideInputs: inputDataType = [
   },
 ];
 
-const FactorHeader = () => {
+const FactorHeader = ({
+  textColor,
+  primaryColor,
+}: {
+  textColor: string;
+  primaryColor: string;
+}) => {
   // className for header columns
   const headerColClassName = "flex flex-col gap-5";
   const headerInputClassName = "flex items-center relative";
@@ -63,7 +69,12 @@ const FactorHeader = () => {
         <div className={headerColClassName}>
           {rightSideInputs.map((item, idx) => (
             <div key={idx} className={headerInputClassName}>
-              <span className={inputHintClassName}>{item.hint}</span>
+              <span
+                style={{ color: textColor, backgroundColor: primaryColor }}
+                className={inputHintClassName}
+              >
+                {item.hint}
+              </span>
               <Input
                 name={item.name}
                 type={item.type}
@@ -96,7 +107,12 @@ const FactorHeader = () => {
           <div className={headerColClassName}>
             {leftSideInputs.map((item, idx) => (
               <div key={idx} className={headerInputClassName}>
-                <span className={inputHintClassName}>{item.hint}</span>
+                <span
+                  style={{ color: textColor, backgroundColor: primaryColor }}
+                  className={inputHintClassName}
+                >
+                  {item.hint}
+                </span>
                 <Input
                   name={item.name}
                   type={item.type}
