@@ -17,7 +17,7 @@ const App = () => {
   });
 
   const [primaryColor, setPrimaryColor] = useState("#16803C");
-  const [textColor, setTextColor] = useState("");
+  const [textColor, setTextColor] = useState("#fff");
 
   return (
     <CacheProvider value={cacheRtl}>
