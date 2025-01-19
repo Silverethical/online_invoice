@@ -47,7 +47,7 @@ const InvoiceTable = ({
       width: 80,
       resizable: false,
       flex: 0.5,
-      headerClassName: `bg-[${primaryColor}] text-[${textColor}]`,
+      cellClassName: "font-bold",
     },
     {
       field: "product-name",
