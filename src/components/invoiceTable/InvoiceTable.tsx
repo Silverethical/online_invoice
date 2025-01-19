@@ -10,6 +10,7 @@ import {
 } from "@mui/x-data-grid";
 import { useCallback, useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import CustomNumeralNumericFormat from "./CustomNumericFormat";
 
 type InvoiceTableProps = {
   primaryColor: string;
@@ -110,8 +111,15 @@ const InvoiceTable = ({
       flex: 0.8,
       resizable: false,
       cellClassName: "text-[14px]",
+      renderCell: (params) => (
+        <div className="h-full flex items-center justify-center">
+          <CustomNumeralNumericFormat
+            value={params.value}
+            thousandSeparator=","
+          />
+        </div>
+      ),
     },
-    // TODO: Add comma (render cell prop)
     {
       field: "price",
       headerName: "قیمت واحد",
@@ -121,7 +129,10 @@ const InvoiceTable = ({
       editable: true,
       renderCell: (params) => (
         <div className="h-full flex items-center justify-center">
-          <Typography fontSize={14}>{params.value}</Typography>
+          <CustomNumeralNumericFormat
+            value={params.value}
+            thousandSeparator=","
+          />
         </div>
       ),
     },
@@ -129,18 +140,9 @@ const InvoiceTable = ({
       field: "total-amount",
       align: "center",
       headerAlign: "center",
-      cellClassName: "text-[14px]",
       flex: 2,
       renderHeader: () => (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 4,
-          }}
-        >
+        <div className="flex flex-row items-center justify-center gap-2">
           <Typography>مبلغ کل</Typography>
           <Typography
             fontSize={12}
@@ -149,6 +151,14 @@ const InvoiceTable = ({
           >
             تومان
           </Typography>
+        </div>
+      ),
+      renderCell: (params) => (
+        <div className="h-full flex items-center justify-center">
+          <CustomNumeralNumericFormat
+            value={params.value}
+            thousandSeparator=","
+          />
         </div>
       ),
     },
