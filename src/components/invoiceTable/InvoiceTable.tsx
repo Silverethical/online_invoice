@@ -100,7 +100,7 @@ const InvoiceTable = ({ primaryColor, textColor }: InvoiceTableProps) => {
         <Button
           sx={{
             borderRadius: "10px",
-            color: textColor || "black",
+            color:  "black",
             borderColor: "#ccc",
             "&:hover": {
               backgroundColor: primaryColor,
