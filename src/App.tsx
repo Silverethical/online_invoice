@@ -11,12 +11,23 @@ import FactorFooter from "./components/factorFooter/FactorFooter";
 import ColorPicker from "./components/colorPicker/ColorPicker";
 import { useState } from "react";
 import InvoiceTable from "./components/invoiceTable/InvoiceTable";
+import { initialRows } from "./components/invoiceTable/data";
+
+export type CellProps = {
+  id: string;
+  "product-name": string;
+  quantity: string;
+  price: string;
+  "total-amount": string;
+};
+
 const App = () => {
   const cacheRtl = createCache({
     key: "muirtl",
     stylisPlugins: [prefixer, rtlPlugin],
   });
 
+  const [rows, setRows] = useState(initialRows);
   const [primaryColor, setPrimaryColor] = useState("#16803C");
   const [textColor, setTextColor] = useState("#fff");
 
@@ -31,7 +42,12 @@ const App = () => {
         />
         <main id="factor" className="mt-[3%] grid gap-[24px]">
           <FactorHeader primaryColor={primaryColor} textColor={textColor} />
-          <InvoiceTable primaryColor={primaryColor} textColor={textColor} />
+          <InvoiceTable
+            rows={rows}
+            setRows={setRows}
+            primaryColor={primaryColor}
+            textColor={textColor}
+          />
           <FactorFooter />
         </main>
       </ThemeProvider>

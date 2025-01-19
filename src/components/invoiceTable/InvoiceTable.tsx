@@ -1,42 +1,26 @@
-import { Button, Paper } from "@mui/material";
+import { Button } from "@mui/material";
 import {
   GridRowsProp,
   DataGrid,
   GridColDef,
   MuiEvent,
   GridCellEditStopParams,
+  GridValidRowModel,
 } from "@mui/x-data-grid";
-import { useState } from "react";
 
 type InvoiceTableProps = {
   primaryColor: string;
   textColor: string;
+  rows: readonly GridValidRowModel[];
+  setRows: React.Dispatch<React.SetStateAction<readonly GridValidRowModel[]>>;
 };
 
-const initialRows: GridRowsProp = [
-  {
-    id: "1",
-    "product-name": "lebas",
-    quantity: "1",
-    price: "1000",
-    "total-amount": "1000",
-  },
-  {
-    id: "2",
-    "product-name": "لبنیات",
-    quantity: "1",
-    price: "1000",
-    "total-amount": "1000",
-  },
-];
-
-const calculateTotalAmount = (quantity: number, price: number) => {
-  return quantity * price;
-};
-
-const InvoiceTable = ({ primaryColor, textColor }: InvoiceTableProps) => {
-  const [rows, setRows] = useState(initialRows);
-
+const InvoiceTable = ({
+  primaryColor,
+  textColor,
+  rows,
+  setRows,
+}: InvoiceTableProps) => {
   const handleAddNewRow = ({
     setRows,
   }: {
