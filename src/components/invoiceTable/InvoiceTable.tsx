@@ -14,6 +14,7 @@ import CustomNumeralNumericFormat from "./CustomNumericFormat";
 import { initialRows } from "./data";
 import { convertToNumber } from "../../helpers/convertToNumber";
 import { Updater } from "use-immer";
+import FactorPrice from "./FactorPrice";
 
 type InvoiceTableProps = {
   primaryColor: string;
@@ -290,7 +291,11 @@ const InvoiceTable = ({
           اضافه کردن ردیف
         </Button>
         {/* price section */}
-        <div className="flex"></div>
+        <FactorPrice
+          primaryColor={primaryColor}
+          textColor={textColor}
+          rows={rows}
+        />
       </div>
     </section>
   );
