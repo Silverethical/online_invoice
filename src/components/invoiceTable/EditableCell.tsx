@@ -30,7 +30,7 @@ function CustomEditComponent(props: GridRenderEditCellParams) {
   return (
     <div className="h-full flex items-center justify-center">
       <input
-        className="w-full text-[14px] text-center"
+        className="outline-none border-none w-full text-[14px] text-center"
         type="text"
         value={formattedValue}
         onChange={handleValueChange}
