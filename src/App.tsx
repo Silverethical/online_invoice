@@ -36,8 +36,6 @@ const App = () => {
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
         <ColorPicker
-          primaryColor={primaryColor}
-          textColor={textColor}
           setPrimaryColor={setPrimaryColor}
           setTextColor={setTextColor}
         />
