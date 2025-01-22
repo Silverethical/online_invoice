@@ -48,12 +48,12 @@ const FactorHeader = ({
   primaryColor: string;
 }) => {
   // className for header columns
-  const headerColClassName = "flex flex-col gap-5";
+  const headerColClassName = "flex flex-col gap-5 w-full md:w-[unset]";
   const headerInputClassName = "flex items-center relative";
   const inputHintClassName =
-    "bg-green-700 p-2 w-[120px] flex justify-center rounded-s-[10px] text-white font-[600]";
+    "bg-green-700 p-2 min-w-[120px] flex justify-center rounded-s-[10px] text-white font-[600]";
   const inputClassName =
-    "rounded-e-[10px] bg-gray-200 p-1 pr-2 border-none items-center w-[250px] text-center !hover:border-none";
+    "rounded-e-[10px] bg-gray-200 p-1 pr-2 border-none items-center md:w-[250px] text-center !hover:border-none";
 
   return (
     <section
@@ -63,9 +63,13 @@ const FactorHeader = ({
       <h1 className="font-[700] text-xl">فاکتور فروش رمیونا</h1>
 
       <form
-        className="rounded-[20px] w-full gap-[15px] flex justify-between items-center mt-6"
+        className="rounded-[20px] w-full gap-[15px] flex md:flex-row flex-col justify-between items-center mt-6"
         onSubmit={(e) => e.preventDefault()}
       >
+        <div className="md:hidden flex items-center justify-center mb-10">
+          <img src="/images/general/logo.png" className="w-[100px]" />
+        </div>
+
         <div className={headerColClassName}>
           {rightSideInputs.map((item, idx) => (
             <div key={idx} className={headerInputClassName}>
@@ -94,13 +98,13 @@ const FactorHeader = ({
                   calendar={persian}
                   locale={persian_fa}
                   calendarPosition="bottom-right"
-                  className="absolute right-0"
+                  className="absolute right-0 !w-fit"
                 />
               )}
             </div>
           ))}
         </div>
-        <div className="flex items-center justify-center">
+        <div className="hidden md:flex items-center justify-center">
           <img src="/images/general/logo.png" className="w-[120px]" />
         </div>
         <div className={headerColClassName}>
