@@ -13,12 +13,13 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CustomNumeralNumericFormat from "./CustomNumericFormat";
 import { initialRows } from "./data";
 import { convertToNumber } from "../../helpers/convertToNumber";
+import { Updater } from "use-immer";
 
 type InvoiceTableProps = {
   primaryColor: string;
   textColor: string;
   rows: readonly GridValidRowModel[];
-  setRows: React.Dispatch<React.SetStateAction<readonly GridValidRowModel[]>>;
+  setRows: Updater<readonly GridValidRowModel[]>;
 };
 
 const InvoiceTable = ({
@@ -77,12 +78,44 @@ const InvoiceTable = ({
     [],
   );
 
+  const handleAddNewRow = ({
+    setRows,
+  }: {
+    setRows: React.Dispatch<React.SetStateAction<GridRowsProp>>;
+  }) => {
+    setRows([
+      ...rows,
+      {
+        id: String(rows.length + 1),
+        "product-name": "",
+        quantity: "",
+        price: "",
+        "total-amount": "",
+      },
+    ]);
+  };
+
   const handleCellModesModelChange = useCallback(
     (newModel: GridCellModesModel) => {
       setCellModesModel(newModel);
     },
     [],
   );
+
+  const handleProcessRowUpdate = (newRow: GridValidRowModel) => {
+    setRows((draft) => {
+      const rowToUpdate = draft.find((row) => row.id === newRow.id);
+      if (rowToUpdate) {
+        Object.assign(rowToUpdate, newRow);
+
+        rowToUpdate["total-amount"] =
+          convertToNumber(rowToUpdate.quantity) *
+          convertToNumber(rowToUpdate.price);
+      }
+    });
+
+    return newRow;
+  };
 
   const columns: GridColDef[] = [
     {
@@ -144,7 +177,7 @@ const InvoiceTable = ({
       headerAlign: "center",
       flex: 2,
       renderHeader: () => (
-        <div className="flex flex-row items-center justify-center gap-2">
+        <div className="flex flex-row items-center justify-center gap-1">
           <Typography>مبلغ کل</Typography>
           <Typography
             fontSize={12}
@@ -197,22 +230,6 @@ const InvoiceTable = ({
       },
     },
   ];
-  const handleAddNewRow = ({
-    setRows,
-  }: {
-    setRows: React.Dispatch<React.SetStateAction<GridRowsProp>>;
-  }) => {
-    setRows([
-      ...rows,
-      {
-        id: rows.length + 1,
-        "product-name": "",
-        quantity: "",
-        price: "",
-        "total-amount": "",
-      },
-    ]);
-  };
 
   return (
     <section className="container">
@@ -223,10 +240,11 @@ const InvoiceTable = ({
           disableColumnMenu={true}
           disableColumnSorting={true}
           disableRowSelectionOnClick={true}
+          cellModesModel={cellModesModel}
           hideFooter={true}
           rows={rows}
           columns={columns}
-          cellModesModel={cellModesModel}
+          processRowUpdate={handleProcessRowUpdate}
           onCellModesModelChange={handleCellModesModelChange}
           onCellClick={handleCellClick}
           sx={{
@@ -254,15 +272,12 @@ const InvoiceTable = ({
               fontSize: 14,
             },
           }}
-          // onCellEditStop={(params: GridCellEditStopParams, event: MuiEvent) => {
-          //   console.log("ended");
-          //   console.log(event);
-          // }}
         />
         <Button
           sx={{
             borderRadius: "10px",
             color: "black",
+            width: "30%",
             borderColor: "#ccc",
             "&:hover": {
               backgroundColor: primaryColor,
@@ -274,6 +289,8 @@ const InvoiceTable = ({
         >
           اضافه کردن ردیف
         </Button>
+        {/* price section */}
+        <div className="flex"></div>
       </div>
     </section>
   );

@@ -12,6 +12,7 @@ import ColorPicker from "./components/colorPicker/ColorPicker";
 import { useState } from "react";
 import InvoiceTable from "./components/invoiceTable/InvoiceTable";
 import { initialRows } from "./components/invoiceTable/data";
+import { useImmer } from "use-immer";
 
 export type CellProps = {
   id: string;
@@ -27,7 +28,7 @@ const App = () => {
     stylisPlugins: [prefixer, rtlPlugin],
   });
 
-  const [rows, setRows] = useState(initialRows);
+  const [rows, setRows] = useImmer(initialRows);
   const [primaryColor, setPrimaryColor] = useState("#16803C");
   const [textColor, setTextColor] = useState("#fff");
 

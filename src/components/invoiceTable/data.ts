@@ -1,4 +1,4 @@
-import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import { GridRowsProp } from "@mui/x-data-grid";
 
 export const initialRows: GridRowsProp = [
   {
@@ -16,4 +16,3 @@ export const initialRows: GridRowsProp = [
     "total-amount": "1000",
   },
 ];
-
