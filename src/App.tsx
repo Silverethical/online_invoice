@@ -36,12 +36,10 @@ const App = () => {
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
         <ColorPicker
-          primaryColor={primaryColor}
-          textColor={textColor}
           setPrimaryColor={setPrimaryColor}
           setTextColor={setTextColor}
         />
-        <main id="factor" className="mt-[3%] grid gap-[24px]">
+        <main id="factor" className="my-[3%] grid gap-[24px]">
           <FactorHeader primaryColor={primaryColor} textColor={textColor} />
           <InvoiceTable
             rows={rows}
