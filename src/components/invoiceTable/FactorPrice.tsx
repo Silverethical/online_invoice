@@ -41,7 +41,11 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
       handleCalculatePrice();
     } else {
       const discount = convertToNumber(rawValue);
-      setDiscountPrice(() => fullPrice - discount);
+      setDiscountPrice(() => {
+        const discountPrice = fullPrice - discount;
+
+        return discountPrice >= 0 ? discountPrice : 0;
+      });
     }
   };
 
@@ -57,7 +61,8 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
       setDiscountPrice(() => {
         const discountAmount = fullPrice * (percentage / 100);
         const discountedValue = fullPrice - discountAmount;
-        return discountedValue;
+
+        return discountedValue >= 0 ? discountedValue : 0;
       });
     }
   };
