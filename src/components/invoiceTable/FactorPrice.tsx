@@ -32,6 +32,13 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
     handleCalculatePrice();
   }, [rows]);
 
+  useEffect(() => {
+    if (fullPrice === 0) {
+      setToomanValue("");
+      setPercentageValue("");
+    }
+  }, [fullPrice]);
+
   const handleToomanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setToomanValue(value);
