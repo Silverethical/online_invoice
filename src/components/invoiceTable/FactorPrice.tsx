@@ -3,6 +3,7 @@ import { GridValidRowModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import CustomNumeralNumericFormat from "./CustomNumericFormat";
 import { convertToNumber } from "../../helpers/convertToNumber";
+import { formatWithCommas } from "../../helpers/formatWithCommas";
 
 type FactorPriceProps = {
   rows: readonly GridValidRowModel[];
@@ -32,22 +33,15 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
     handleCalculatePrice();
   }, [rows]);
 
-  useEffect(() => {
-    if (fullPrice === 0) {
-      setToomanValue("");
-      setPercentageValue("");
-    }
-  }, [fullPrice]);
-
   const handleToomanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setToomanValue(value);
+    const rawValue = e.target.value.replace(/,/g, "");
+    setToomanValue(formatWithCommas(rawValue));
 
-    if (value === "") {
+    if (rawValue === "") {
       handleCalculatePrice();
     } else {
-      const discount = convertToNumber(value);
-      setDiscountPrice(() => convertToNumber(fullPrice) - discount);
+      const discount = convertToNumber(rawValue);
+      setDiscountPrice(() => fullPrice - discount);
     }
   };
 
@@ -70,7 +64,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
 
   return (
     <>
-      <Box className="w-[30%] flex flex-col  border border-[#ccc] rounded-[10px]">
+      <Box className="w-[30%] flex flex-col border border-[#ccc] rounded-[10px]">
         {/* Total Price */}
         <Box className="border-b-[1px] py-2 px-3 flex items-center justify-between">
           <Typography fontWeight={700}>جمع کل</Typography>
@@ -89,12 +83,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
           }`}
         >
           <Box className="flex items-center gap-1">
-            <Typography
-              fontWeight={700}
-              color={`${isPercentageDisabled ? "gray" : ""}`}
-            >
-              تخفیف
-            </Typography>
+            <Typography fontWeight={700}>تخفیف</Typography>
             <Box
               sx={{ backgroundColor: primaryColor }}
               className="p-1.5 rounded-full"
@@ -107,7 +96,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
           <input
             className="w-[20%] border-none outline-none"
             placeholder="قیمت"
-            type="number"
+            type="text" // Changed to text to allow comma formatting
             value={toomanValue}
             onChange={handleToomanChange}
             hidden={isToomanValueDisabled}
@@ -123,12 +112,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
           }`}
         >
           <Box className="flex items-center gap-1">
-            <Typography
-              fontWeight={700}
-              color={`${isPercentageDisabled ? "gray" : ""}`}
-            >
-              تخفیف
-            </Typography>
+            <Typography fontWeight={700}>تخفیف</Typography>
             <Box
               sx={{ backgroundColor: primaryColor }}
               className="p-1.5 rounded-full"
@@ -140,7 +124,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
           </Box>
           <input
             className="w-[20%] border-none outline-none"
-            placeholder={"درصد"}
+            placeholder="درصد"
             hidden={isPercentageDisabled}
             type="number"
             value={percentageValue}
