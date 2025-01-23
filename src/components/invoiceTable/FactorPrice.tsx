@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import CustomNumeralNumericFormat from "./CustomNumericFormat";
 import { convertToNumber } from "../../helpers/convertToNumber";
 import { formatWithCommas } from "../../helpers/formatWithCommas";
+import DiscountByPercentage from "./DiscountByPercentage";
+import DiscountByTooman from "./DiscountByTooman";
 
 type FactorPriceProps = {
   rows: readonly GridValidRowModel[];
@@ -54,13 +56,11 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
 
   const handlePercentageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
-    const sanitizedValue = formatWithCommas(
-      convertToNumber(rawValue).toString(),
-    );
+    const sanitizedValue = convertToNumber(rawValue).toString();
 
     setPercentageValue(sanitizedValue);
 
-    if (sanitizedValue === "") {
+    if (rawValue === "") {
       handleCalculatePrice();
     } else {
       const percentage = +convertToNumber(rawValue);
@@ -89,62 +89,22 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
         </Box>
 
         {/* Discount by Tooman */}
-        <Box
-          className={`border-b-[1px] py-2 px-3 flex items-center justify-between gap-1 ${
-            isToomanValueDisabled ? "bg-gray-300" : ""
-          }`}
-        >
-          <Box className="flex items-center gap-1">
-            <Typography fontWeight={700}>تخفیف</Typography>
-            <Box
-              sx={{ backgroundColor: primaryColor }}
-              className="p-1.5 rounded-full"
-            >
-              <Typography fontSize={12} fontWeight={700} color={textColor}>
-                مبلغ
-              </Typography>
-            </Box>
-          </Box>
-          <input
-            className="w-[20%] border-none outline-none"
-            placeholder="قیمت"
-            type="text"
-            value={toomanValue}
-            onChange={handleToomanChange}
-            hidden={isToomanValueDisabled}
-            disabled={isToomanValueDisabled}
-            dir="ltr"
-          />
-        </Box>
+        <DiscountByTooman
+          textColor={textColor}
+          primaryColor={primaryColor}
+          isToomanDisabled={isToomanValueDisabled}
+          toomanValue={toomanValue}
+          handleToomanChange={handleToomanChange}
+        />
 
         {/* Discount by Percentage */}
-        <Box
-          className={`py-2 px-3 flex items-center justify-between gap-1 ${
-            isPercentageDisabled ? "bg-gray-300" : ""
-          }`}
-        >
-          <Box className="flex items-center gap-1">
-            <Typography fontWeight={700}>تخفیف</Typography>
-            <Box
-              sx={{ backgroundColor: primaryColor }}
-              className="p-1.5 rounded-full"
-            >
-              <Typography fontSize={12} fontWeight={700} color={textColor}>
-                درصد
-              </Typography>
-            </Box>
-          </Box>
-          <input
-            className="w-[20%] border-none outline-none"
-            placeholder="درصد"
-            hidden={isPercentageDisabled}
-            type="text"
-            value={percentageValue}
-            onChange={handlePercentageChange}
-            disabled={isPercentageDisabled}
-            dir="ltr"
-          />
-        </Box>
+        <DiscountByPercentage
+          textColor={textColor}
+          primaryColor={primaryColor}
+          isPercentageDisabled={isPercentageDisabled}
+          percentageValue={percentageValue}
+          handlePercentageChange={handlePercentageChange}
+        />
       </Box>
 
       <Box className="w-[30%] pt-2 flex flex-row items-center justify-start rounded-[10px]">
