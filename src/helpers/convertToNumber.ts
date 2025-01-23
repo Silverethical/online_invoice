@@ -1,4 +1,4 @@
-export const convertToNumber = (value: any): number => {
+export const convertToNumber = (value: any): number | string => {
   if (typeof value === "number") return value;
 
   if (typeof value === "string") {
@@ -12,8 +12,8 @@ export const convertToNumber = (value: any): number => {
       "",
     );
 
-    return Number(parseFloat(numericValue) || 0);
+    return numericValue ? parseFloat(numericValue) : "";
   }
 
-  return 0;
+  return "";
 };
