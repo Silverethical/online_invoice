@@ -11,13 +11,11 @@ import {
 } from "@mui/x-data-grid";
 import { useCallback, useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import CustomNumeralNumericFormat from "./CustomNumericFormat";
+import CustomNumeralNumericFormat from "../CustomNumericFormat";
 import { initialRows } from "./data";
 import { convertToNumber } from "../../helpers/convertToNumber";
 import { Updater } from "use-immer";
-import FactorPrice from "./FactorPrice";
-import { formatWithCommas } from "../../helpers/formatWithCommas";
-import EditableCell from "./CustomEditComponent";
+import FactorPrice from "./factorPrice/FactorPrice";
 import CustomEditComponent from "./CustomEditComponent";
 
 type InvoiceTableProps = {
@@ -114,8 +112,8 @@ const InvoiceTable = ({
         Object.assign(rowToUpdate, newRow);
 
         rowToUpdate["total-amount"] =
-          convertToNumber(rowToUpdate.quantity) *
-          convertToNumber(rowToUpdate.price);
+          +convertToNumber(rowToUpdate.quantity) *
+          +convertToNumber(rowToUpdate.price);
       }
     });
 
@@ -201,8 +199,8 @@ const InvoiceTable = ({
       ),
       renderCell: (params) => {
         const totalPrice =
-          convertToNumber(params.row.quantity) *
-          convertToNumber(params.row.price);
+          +convertToNumber(params.row.quantity) *
+          +convertToNumber(params.row.price);
         return (
           <div className="h-full flex items-center justify-center">
             <CustomNumeralNumericFormat

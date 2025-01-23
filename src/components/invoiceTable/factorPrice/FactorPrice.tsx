@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { GridValidRowModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import CustomNumeralNumericFormat from "./CustomNumericFormat";
-import { convertToNumber } from "../../helpers/convertToNumber";
-import { formatWithCommas } from "../../helpers/formatWithCommas";
+import CustomNumeralNumericFormat from "../../CustomNumericFormat";
+import { convertToNumber } from "../../../helpers/convertToNumber";
+import { formatWithCommas } from "../../../helpers/formatWithCommas";
 import DiscountByPercentage from "./DiscountByPercentage";
 import DiscountByTooman from "./DiscountByTooman";
 import { handleCalculatePrice } from "./handleCalculatePrice";

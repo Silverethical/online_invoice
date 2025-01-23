@@ -1,5 +1,5 @@
 import { GridValidRowModel } from "@mui/x-data-grid";
-import { convertToNumber } from "../../helpers/convertToNumber";
+import { convertToNumber } from "../../../helpers/convertToNumber";
 
 type HandleCalculatePriceProps = {
   rows: readonly GridValidRowModel[];
