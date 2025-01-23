@@ -6,6 +6,7 @@ import { convertToNumber } from "../../helpers/convertToNumber";
 import { formatWithCommas } from "../../helpers/formatWithCommas";
 import DiscountByPercentage from "./DiscountByPercentage";
 import DiscountByTooman from "./DiscountByTooman";
+import { handleCalculatePrice } from "./handleCalculatePrice";
 
 type FactorPriceProps = {
   rows: readonly GridValidRowModel[];
@@ -22,17 +23,8 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
   const isPercentageDisabled = toomanValue !== "";
   const isToomanValueDisabled = percentageValue !== "";
 
-  const handleCalculatePrice = () => {
-    const total = rows.reduce((sum, row) => {
-      const rowTotal = convertToNumber(row["total-amount"]);
-      return sum + +rowTotal;
-    }, 0);
-    setDiscountPrice(total);
-    setFullPrice(total);
-  };
-
   useEffect(() => {
-    handleCalculatePrice();
+    handleCalculatePrice({ rows, setFullPrice, setDiscountPrice });
   }, [rows]);
 
   const handleToomanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +36,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
     setToomanValue(sanitizedValue);
 
     if (sanitizedValue === "") {
-      handleCalculatePrice();
+      handleCalculatePrice({ rows, setFullPrice, setDiscountPrice });
     } else {
       const discount = +convertToNumber(rawValue);
       setDiscountPrice(() => {
@@ -61,7 +53,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
     setPercentageValue(sanitizedValue);
 
     if (rawValue === "") {
-      handleCalculatePrice();
+      handleCalculatePrice({ rows, setFullPrice, setDiscountPrice });
     } else {
       const percentage = +convertToNumber(rawValue);
 
