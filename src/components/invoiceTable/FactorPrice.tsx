@@ -23,7 +23,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
   const handleCalculatePrice = () => {
     const total = rows.reduce((sum, row) => {
       const rowTotal = convertToNumber(row["total-amount"]);
-      return sum + rowTotal;
+      return sum + +rowTotal;
     }, 0);
     setDiscountPrice(total);
     setFullPrice(total);
@@ -34,29 +34,36 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
   }, [rows]);
 
   const handleToomanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/,/g, "");
-    setToomanValue(formatWithCommas(rawValue));
+    const rawValue = e.target.value;
+    const sanitizedValue = formatWithCommas(
+      convertToNumber(rawValue).toString(),
+    );
 
-    if (rawValue === "") {
+    setToomanValue(sanitizedValue);
+
+    if (sanitizedValue === "") {
       handleCalculatePrice();
     } else {
-      const discount = convertToNumber(rawValue);
+      const discount = +convertToNumber(rawValue);
       setDiscountPrice(() => {
         const discountPrice = fullPrice - discount;
-
         return discountPrice >= 0 ? discountPrice : 0;
       });
     }
   };
 
   const handlePercentageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setPercentageValue(value);
+    const rawValue = e.target.value;
+    const sanitizedValue = formatWithCommas(
+      convertToNumber(rawValue).toString(),
+    );
 
-    if (value === "") {
+    setPercentageValue(sanitizedValue);
+
+    if (sanitizedValue === "") {
       handleCalculatePrice();
     } else {
-      const percentage = convertToNumber(value);
+      const percentage = +convertToNumber(rawValue);
 
       setDiscountPrice(() => {
         const discountAmount = fullPrice * (percentage / 100);
@@ -131,7 +138,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
             className="w-[20%] border-none outline-none"
             placeholder="درصد"
             hidden={isPercentageDisabled}
-            type="number"
+            type="text"
             value={percentageValue}
             onChange={handlePercentageChange}
             disabled={isPercentageDisabled}
