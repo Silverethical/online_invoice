@@ -17,8 +17,8 @@ import { convertToNumber } from "../../helpers/convertToNumber";
 import { Updater } from "use-immer";
 import FactorPrice from "./FactorPrice";
 import { formatWithCommas } from "../../helpers/formatWithCommas";
-import EditableCell from "./EditableCell";
-import CustomEditComponent from "./EditableCell";
+import EditableCell from "./CustomEditComponent";
+import CustomEditComponent from "./CustomEditComponent";
 
 type InvoiceTableProps = {
   primaryColor: string;
@@ -145,12 +145,7 @@ const InvoiceTable = ({
     {
       field: "quantity",
       headerName: "تعداد",
-      align: "center",
-      headerAlign: "center",
       editable: true,
-      flex: 0.8,
-      resizable: false,
-      cellClassName: "text-[14px]",
       renderCell: (params) => (
         <div className="h-full flex items-center justify-center">
           <CustomNumeralNumericFormat
@@ -166,9 +161,6 @@ const InvoiceTable = ({
     {
       field: "price",
       headerName: "قیمت واحد",
-      align: "center",
-      headerAlign: "center",
-      flex: 1.5,
       editable: true,
       renderCell: (params) => (
         <div className="h-full flex items-center justify-center">
@@ -277,10 +269,6 @@ const InvoiceTable = ({
             },
             "& .MuiDataGrid-columnSeparator": {
               opacity: 0,
-            },
-            "& .MuiInputBase-input": {
-              textAlign: "center",
-              fontSize: 14,
             },
           }}
         />

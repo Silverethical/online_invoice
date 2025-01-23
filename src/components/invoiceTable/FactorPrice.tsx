@@ -101,7 +101,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
           <input
             className="w-[20%] border-none outline-none"
             placeholder="قیمت"
-            type="text" // Changed to text to allow comma formatting
+            type="text"
             value={toomanValue}
             onChange={handleToomanChange}
             hidden={isToomanValueDisabled}

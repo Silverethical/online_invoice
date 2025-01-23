@@ -1,7 +1,7 @@
 import { GridRenderEditCellParams, useGridApiContext } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { formatWithCommas } from "../../helpers/formatWithCommas";
-import { removeCommas } from "../../helpers/removeCommas";
+import { convertToNumber } from "../../helpers/convertToNumber";
 
 function CustomEditComponent(props: GridRenderEditCellParams) {
   const { id, value: valueProp, field } = props;
@@ -11,7 +11,7 @@ function CustomEditComponent(props: GridRenderEditCellParams) {
   const apiRef = useGridApiContext();
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = removeCommas(event.target.value);
+    const rawValue = String(convertToNumber(event.target.value));
 
     setFormattedValue(formatWithCommas(rawValue));
 
