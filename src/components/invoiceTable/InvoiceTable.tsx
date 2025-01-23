@@ -145,6 +145,11 @@ const InvoiceTable = ({
     {
       field: "quantity",
       headerName: "تعداد",
+      align: "center",
+      headerAlign: "center",
+      flex: 0.8,
+      resizable: false,
+      cellClassName: "text-[14px]",
       editable: true,
       renderCell: (params) => (
         <div className="h-full flex items-center justify-center">
@@ -162,6 +167,9 @@ const InvoiceTable = ({
       field: "price",
       headerName: "قیمت واحد",
       editable: true,
+      align: "center",
+      headerAlign: "center",
+      flex: 1.5,
       renderCell: (params) => (
         <div className="h-full flex items-center justify-center">
           <CustomNumeralNumericFormat
@@ -266,6 +274,10 @@ const InvoiceTable = ({
               border: "1px solid #ccc",
               backgroundColor: primaryColor,
               color: textColor,
+            },
+            "& .MuiInputBase-input": {
+              textAlign: "center",
+              fontSize: 14,
             },
             "& .MuiDataGrid-columnSeparator": {
               opacity: 0,
