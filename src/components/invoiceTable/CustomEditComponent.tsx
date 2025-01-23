@@ -15,6 +15,8 @@ function CustomEditComponent(props: GridRenderEditCellParams) {
 
     setFormattedValue(formatWithCommas(rawValue));
 
+    if (apiRef.current === null) return;
+
     apiRef.current.setEditCellValue({
       id,
       field,
