@@ -28,7 +28,7 @@ const DiscountByTooman = ({
           className="p-1.5 rounded-full"
         >
           <Typography fontSize={12} fontWeight={700} color={textColor}>
-            درصد
+           مبلغ 
           </Typography>
         </Box>
       </Box>
