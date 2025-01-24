@@ -89,12 +89,10 @@ const InvoiceTable = ({
   }) => {
     setRows([
       ...rows,
+
       {
+        ...initialRows[0],
         id: String(rows.length + 1),
-        "product-name": "",
-        quantity: "1",
-        price: "",
-        "total-amount": "",
       },
     ]);
   };
