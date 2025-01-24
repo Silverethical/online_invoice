@@ -17,6 +17,7 @@ import { convertToNumber } from "../../helpers/convertToNumber";
 import { Updater } from "use-immer";
 import FactorPrice from "./factorPrice/FactorPrice";
 import CustomEditComponent from "./CustomEditComponent";
+import reCalculateRowNumbers from "../../helpers/reCalculateRowNumbers";
 
 type InvoiceTableProps = {
   primaryColor: string;
@@ -225,7 +226,9 @@ const InvoiceTable = ({
             return;
           }
 
+          // TODO: Add a confirmation dialog
           setRows(rows.filter((row) => row.id !== params.id));
+          reCalculateRowNumbers({ setRows });
         };
 
         return (
