@@ -92,7 +92,7 @@ const InvoiceTable = ({
       {
         id: String(rows.length + 1),
         "product-name": "",
-        quantity: "",
+        quantity: "1",
         price: "",
         "total-amount": "",
       },
