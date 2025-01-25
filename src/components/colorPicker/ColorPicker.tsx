@@ -1,9 +1,8 @@
-import { Input } from "@mui/material";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFillRounded";
 import BorderColorIcon from "@mui/icons-material/BorderColorRounded";
-import _ from "lodash";
+import { ColorPicker } from "antd";
 
-const ColorPicker = ({
+const ColorPickers = ({
   setTextColor,
   setPrimaryColor,
 }: {
@@ -12,33 +11,23 @@ const ColorPicker = ({
 }) => {
   return (
     <div className="exclude absolute left-5 top-5 flex items-center gap-2">
-      <Input
-        className="!hidden"
-        id="primaryColor"
-        name="primaryColor"
-        type="color"
-        onChange={_.debounce((e) => {
-          setPrimaryColor(e.target.value);
-        }, 100)}
-      />
-      <label className="cursor-pointer" htmlFor="primaryColor">
+      <ColorPicker
+        onChangeComplete={(color) => {
+          setPrimaryColor(color.toCssString());
+        }}
+      >
         <FormatColorFillIcon />
-      </label>
+      </ColorPicker>
 
-      <Input
-        className="!hidden"
-        type="color"
-        id="textColor"
-        name="textColor"
-        onChange={_.debounce((e) => {
-          setTextColor(e.target.value);
-        }, 100)}
-      />
-      <label className="cursor-pointer" htmlFor="textColor">
+      <ColorPicker
+        onChangeComplete={(color) => {
+          setTextColor(color.toCssString());
+        }}
+      >
         <BorderColorIcon />
-      </label>
+      </ColorPicker>
     </div>
   );
 };
 
-export default ColorPicker;
+export default ColorPickers;
