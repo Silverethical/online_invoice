@@ -299,12 +299,19 @@ const InvoiceTable = ({
         >
           اضافه کردن ردیف
         </Button>
-        {/* price section */}
-        <FactorPrice
-          primaryColor={primaryColor}
-          textColor={textColor}
-          rows={rows}
-        />
+        <div className="w-full flex justify-between">
+          {/* card number details */}
+          <p></p>
+
+          <div id="factorPrice" className="flex flex-col w-fit w-[30%]">
+            {/* price section */}
+            <FactorPrice
+              primaryColor={primaryColor}
+              textColor={textColor}
+              rows={rows}
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

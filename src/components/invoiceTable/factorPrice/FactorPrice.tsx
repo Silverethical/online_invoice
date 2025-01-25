@@ -68,7 +68,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
 
   return (
     <>
-      <Box className="w-[30%] flex flex-col border border-[#ccc] rounded-[10px]">
+      <Box className="flex flex-col border border-[#ccc] rounded-[10px]">
         {/* Total Price */}
         <Box className="border-b-[1px] py-2 px-3 flex items-center justify-between">
           <Typography fontWeight={700}>جمع کل</Typography>
@@ -99,7 +99,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
         />
       </Box>
 
-      <Box className="w-[30%] pt-2 flex flex-row items-center justify-start rounded-[10px]">
+      <Box className="pt-2 flex flex-row items-center justify-start rounded-[10px]">
         <Box
           className="w-[30%] min-w-[max-content] px-3 py-2 rounded-tr-[10px] rounded-br-[10px]"
           sx={{ backgroundColor: primaryColor, color: textColor }}
