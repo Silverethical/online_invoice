@@ -101,7 +101,10 @@ const FactorHeader = ({
           ))}
         </div>
         <div className="flex items-center justify-center">
-          <img src="/images/general/logo.png" className="w-[120px]" />
+          <img
+            src="/images/general/logo.png"
+            className="min-w-[120px] max-w-[120px]"
+          />
         </div>
         <div className={headerColClassName}>
           <div className={headerColClassName}>

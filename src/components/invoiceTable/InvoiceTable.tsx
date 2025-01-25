@@ -243,7 +243,7 @@ const InvoiceTable = ({
 
   return (
     <section className="container">
-      <div className="flex flex-col justify-center items-end gap-[10px]">
+      <div className="flex flex-col justify-center items-end gap-[10px] !min-w-[870px]">
         <DataGrid
           density="comfortable"
           disableColumnFilter={true}

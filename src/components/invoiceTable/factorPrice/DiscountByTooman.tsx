@@ -28,13 +28,13 @@ const DiscountByTooman = ({
           className="p-1.5 rounded-full"
         >
           <Typography fontSize={12} fontWeight={700} color={textColor}>
-           مبلغ 
+            مبلغ
           </Typography>
         </Box>
       </Box>
       <input
         className="w-[20%] border-none outline-none"
-        placeholder="درصد"
+        placeholder="مبلغ"
         hidden={isToomanDisabled}
         type="string"
         value={toomanValue}
