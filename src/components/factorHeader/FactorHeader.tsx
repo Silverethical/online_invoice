@@ -2,6 +2,7 @@ import Input from "@mui/material/Input";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { useState } from "react";
 
 type inputDataType = {
   name: string;
@@ -47,6 +48,12 @@ const FactorHeader = ({
   textColor: string;
   primaryColor: string;
 }) => {
+  const [imageUrl, uploadImg] = useState("/images/general/logo.png");
+
+  const imgFileHandler = (e: any) => {
+    uploadImg(URL.createObjectURL(e.target.files[0]));
+  };
+
   // className for header columns
   const headerColClassName = "flex flex-col gap-5";
   const headerInputClassName = "flex items-center relative";
@@ -101,10 +108,19 @@ const FactorHeader = ({
           ))}
         </div>
         <div className="flex items-center justify-center">
-          <img
-            src="/images/general/logo.png"
-            className="min-w-[120px] max-w-[120px]"
+          <Input
+            name="logo"
+            id="logo"
+            onChange={imgFileHandler}
+            type="file"
+            className="!hidden"
           />
+          <label htmlFor="logo" className="cursor-pointer">
+            <img
+              src={imageUrl}
+              className="min-w-[120px] max-w-[120px] rounded-[50%]"
+            />
+          </label>
         </div>
         <div className={headerColClassName}>
           <div className={headerColClassName}>
@@ -138,5 +154,4 @@ const FactorHeader = ({
     </section>
   );
 };
-
 export default FactorHeader;
