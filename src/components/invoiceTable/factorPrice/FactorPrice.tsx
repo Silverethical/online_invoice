@@ -108,7 +108,7 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
             قابل پرداخت
           </Typography>
         </Box>
-        <Box className="w-[70%] bg-[#f1f1f1] px-[6.5px] flex justify-center items-center rounded-tl-[10px] rounded-bl-[10px] flex-row gap-1">
+        <Box className="w-[70%] bg-[#f1f1f1] p-[6.5px] flex justify-center items-center rounded-tl-[10px] rounded-bl-[10px] flex-row gap-1">
           <CustomNumeralNumericFormat
             value={discountPrice}
             thousandSeparator=","
