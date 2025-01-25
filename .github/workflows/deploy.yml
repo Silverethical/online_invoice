@@ -48,4 +48,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: production
-          cname: remiona.ir
+          cname: factor.remiona.ir
