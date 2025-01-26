@@ -1,19 +1,28 @@
 import { GridRenderEditCellParams, useGridApiContext } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatWithCommas } from "../../helpers/formatWithCommas";
 import { convertToNumber } from "../../helpers/convertToNumber";
 
 function CustomEditComponent(props: GridRenderEditCellParams) {
-  const { id, value: valueProp, field } = props;
+  const { id, value: valueProp, field, type, isFormatabble } = props;
+  const inputRef = useRef(null);
   const [formattedValue, setFormattedValue] = useState(
     formatWithCommas(valueProp?.toString() || ""),
   );
   const apiRef = useGridApiContext();
 
+  useEffect(() => {
+    console.log(inputRef.current);
+  }, []);
+
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = String(convertToNumber(event.target.value));
 
-    setFormattedValue(formatWithCommas(rawValue));
+    if (isFormatabble) {
+      setFormattedValue(formatWithCommas(rawValue));
+    } else {
+      setFormattedValue(rawValue);
+    }
 
     if (apiRef.current === null) return;
 
@@ -26,14 +35,19 @@ function CustomEditComponent(props: GridRenderEditCellParams) {
   };
 
   useEffect(() => {
-    setFormattedValue(formatWithCommas(valueProp?.toString() || ""));
+    if (isFormatabble) {
+      setFormattedValue(formatWithCommas(valueProp?.toString() || ""));
+    } else {
+      setFormattedValue(valueProp?.toString() || "");
+    }
   }, [valueProp]);
 
   return (
     <div className="h-full flex items-center justify-center">
       <input
+        ref={inputRef}
         className="outline-none border-none w-full text-[14px] text-center"
-        type="text"
+        type={type || "text"}
         value={formattedValue}
         onChange={handleValueChange}
       />
