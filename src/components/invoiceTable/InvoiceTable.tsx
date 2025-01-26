@@ -8,6 +8,7 @@ import {
   GridCellModes,
   GridColDef,
   GridRenderEditCellParams,
+  useGridApiContext,
 } from "@mui/x-data-grid";
 import { useCallback, useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -157,7 +158,13 @@ const InvoiceTable = ({
         </div>
       ),
       renderEditCell: (params: GridRenderEditCellParams) => {
-        return <CustomEditComponent {...params} />;
+        return (
+          <CustomEditComponent
+            isFormatabble={false}
+            type="number"
+            {...params}
+          />
+        );
       },
     },
     {
