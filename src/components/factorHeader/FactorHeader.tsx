@@ -94,7 +94,7 @@ const FactorHeader = ({
   return (
     <section
       id="factor-header"
-      className="container flex justify-center items-center flex-col gap-10"
+      className="container !w-full md:w-[unset] flex justify-center items-center flex-col gap-10"
     >
       <h1 className="font-[700] text-xl">فاکتور فروش رمیونا</h1>
 

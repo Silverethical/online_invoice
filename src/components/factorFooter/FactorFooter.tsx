@@ -9,7 +9,10 @@ const FactorFooter = ({
   setRows: React.Dispatch<React.SetStateAction<GridRowsProp>>;
 }) => {
   return (
-    <section id="factor-footer" className="container flex flex-col gap-10">
+    <section
+      id="factor-footer"
+      className="container !w-full md:w-[unset] flex flex-col gap-10"
+    >
       <TextField
         placeholder="توضیحات"
         className="description-input"
