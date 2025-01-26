@@ -269,9 +269,6 @@ const InvoiceTable = ({
               borderTop: "none",
               borderLeft: "none",
             },
-            "& .id-cell": {
-              borderLeft: "1px solid #ccc",
-            },
             "& .MuiDataGrid-columnHeader": {
               border: "1px solid #ccc",
               backgroundColor: primaryColor,
