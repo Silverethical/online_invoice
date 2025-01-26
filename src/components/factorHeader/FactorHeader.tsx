@@ -30,13 +30,13 @@ const leftSideInputs: inputDataType = [
   {
     name: "phone-number",
     hint: "شماره تلفن",
-    type: "number",
+    type: "text",
     inputMode: "numeric",
   },
   {
     name: "factor-number",
+    type: "text",
     hint: "شماره فاکتور",
-    type: "number",
     inputMode: "numeric",
   },
 ];
@@ -49,12 +49,41 @@ const FactorHeader = ({
   primaryColor: string;
 }) => {
   const [imageUrl, uploadImg] = useState("/images/general/logo.png");
+  const [inputValues, setInputValues] = useState<Record<string, string>>({});
+
+  // Convert Persian digits to Latin digits
+  const persianToLatinDigits = (input: string) => {
+    const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+    const latinDigits = "0123456789";
+    return input.replace(/[۰-۹]/g, (char) => {
+      const index = persianDigits.indexOf(char);
+      return latinDigits[index] !== undefined ? latinDigits[index] : char;
+    });
+  };
+
+  // Handle input changes and validate for numeric fields
+  const handleInputChange = (
+    name: string,
+    inputMode: string,
+    value: string,
+  ) => {
+    let changedValue = value;
+
+    if (inputMode === "numeric") {
+      // Convert Persian digits to Latin and filter out invalid characters
+      changedValue = persianToLatinDigits(value).replace(/[^0-9]/g, "");
+    }
+
+    setInputValues((prev) => ({
+      ...prev,
+      [name]: changedValue,
+    }));
+  };
 
   const imgFileHandler = (e: any) => {
     uploadImg(URL.createObjectURL(e.target.files[0]));
   };
 
-  // className for header columns
   const headerColClassName = "flex flex-col gap-5";
   const headerInputClassName = "flex items-center relative";
   const inputHintClassName =
@@ -95,6 +124,14 @@ const FactorHeader = ({
                     display: "none",
                   },
                 }}
+                onChange={(e) =>
+                  handleInputChange(
+                    item.name,
+                    item.inputMode ?? "",
+                    e.target.value,
+                  )
+                }
+                value={inputValues[item.name] || ""}
               />
               {item.showDatePicker && (
                 <DatePicker
@@ -137,6 +174,9 @@ const FactorHeader = ({
                   type={item.type}
                   inputMode={item.inputMode ?? "text"}
                   className={inputClassName}
+                  inputProps={{
+                    maxLength: item.name === "phone-number" ? 11 : null,
+                  }}
                   sx={{
                     "::before": {
                       display: "none",
@@ -145,6 +185,14 @@ const FactorHeader = ({
                       display: "none",
                     },
                   }}
+                  onChange={(e) =>
+                    handleInputChange(
+                      item.name,
+                      item.inputMode ?? "",
+                      e.target.value,
+                    )
+                  }
+                  value={inputValues[item.name] || ""}
                 />
               </div>
             ))}
@@ -154,4 +202,5 @@ const FactorHeader = ({
     </section>
   );
 };
+
 export default FactorHeader;
