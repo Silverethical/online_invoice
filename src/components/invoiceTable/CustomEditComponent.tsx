@@ -13,6 +13,12 @@ function CustomEditComponent(props: GridRenderEditCellParams) {
 
   useEffect(() => {
     console.log(inputRef.current);
+    const timeOut = setTimeout(() => {
+      inputRef.current.select();
+    }, 10);
+    return () => {
+      clearTimeout(timeOut);
+    };
   }, []);
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
