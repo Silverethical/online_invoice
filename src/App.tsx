@@ -39,7 +39,10 @@ const App = () => {
           setPrimaryColor={setPrimaryColor}
           setTextColor={setTextColor}
         />
-        <main id="factor" className="my-[3%] grid gap-[24px] overflow-x-auto">
+        <main
+          id="factor"
+          className="my-[3%] grid gap-[24px] overflow-x-auto p-5 md:p-0"
+        >
           <FactorHeader primaryColor={primaryColor} textColor={textColor} />
           <InvoiceTable
             rows={rows}

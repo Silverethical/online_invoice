@@ -56,6 +56,18 @@ input[type="number"] {
   }
 }
 
+
+.MuiDataGrid-virtualScrollerContent.muirtl-aymtem-MuiDataGrid-virtualScrollerContent {
+  border: 1px solid #CCCCCC;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+}
+
+.muirtl-cw82c2-MuiDataGrid-root .id-cell {
+  border-right: none !important;
+}
+
+
 // date picker styles 
 .rmdp-container {
   position: absolute;
@@ -79,4 +91,17 @@ input[type="number"] {
 
 .ep-arrow {
   display: none;
+}
+
+// ant modal
+
+.ant-modal-confirm-btns {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+  margin-top: 30px !important;
+
+  button {
+    width: 100%;
+  }
 }

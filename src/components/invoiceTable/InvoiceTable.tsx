@@ -8,7 +8,6 @@ import {
   GridCellModes,
   GridColDef,
   GridRenderEditCellParams,
-  useGridApiContext,
 } from "@mui/x-data-grid";
 import { useCallback, useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -19,6 +18,7 @@ import { Updater } from "use-immer";
 import FactorPrice from "./factorPrice/FactorPrice";
 import CustomEditComponent from "./CustomEditComponent";
 import reCalculateRowNumbers from "../../helpers/reCalculateRowNumbers";
+import { showDeleteConfirm } from "./showDeleteConfirm";
 
 type InvoiceTableProps = {
   primaryColor: string;
@@ -158,13 +158,7 @@ const InvoiceTable = ({
         </div>
       ),
       renderEditCell: (params: GridRenderEditCellParams) => {
-        return (
-          <CustomEditComponent
-            isFormatabble={false}
-            type="number"
-            {...params}
-          />
-        );
+        return <CustomEditComponent {...params} />;
       },
     },
     {
@@ -226,12 +220,12 @@ const InvoiceTable = ({
       flex: 1,
       renderCell(params) {
         const handleRowDeleteRow = () => {
+          console.log(params);
           if (rows.length === 1) {
             setRows(initialRows);
             return;
           }
 
-          // TODO: Add a confirmation dialog
           setRows(rows.filter((row) => row.id !== params.id));
           reCalculateRowNumbers({ setRows });
         };
@@ -239,8 +233,10 @@ const InvoiceTable = ({
         return (
           <div className="h-full flex items-center justify-center">
             <DeleteOutlineIcon
-              onClick={handleRowDeleteRow}
               sx={{ cursor: "pointer" }}
+              onClick={() =>
+                showDeleteConfirm(handleRowDeleteRow, params.id as number)
+              }
             />
           </div>
         );
@@ -249,8 +245,8 @@ const InvoiceTable = ({
   ];
 
   return (
-    <section className="container">
-      <div className="flex flex-col justify-center items-end gap-[10px] !min-w-[870px]">
+    <section className="container !min-w-[900px]">
+      <div className="flex flex-col justify-center items-end gap-[10px]">
         <DataGrid
           density="comfortable"
           disableColumnFilter={true}
