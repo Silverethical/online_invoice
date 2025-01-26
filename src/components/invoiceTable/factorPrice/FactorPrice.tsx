@@ -1,11 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import { GridValidRowModel } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CustomNumeralNumericFormat from "../../CustomNumericFormat";
 import { convertToNumber } from "../../../helpers/convertToNumber";
 import { formatWithCommas } from "../../../helpers/formatWithCommas";
-import DiscountByPercentage from "./DiscountByPercentage";
-import DiscountByTooman from "./DiscountByTooman";
+import DiscountInput from "./DiscountInput";
 import { handleCalculatePrice } from "./handleCalculatePrice";
 
 type FactorPriceProps = {
@@ -17,52 +16,65 @@ type FactorPriceProps = {
 const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
   const [discountPrice, setDiscountPrice] = useState<number>(0);
   const [fullPrice, setFullPrice] = useState<number>(0);
-  const [toomanValue, setToomanValue] = useState<string>("");
+  const [discountType, setDiscountType] = useState("");
+  const discountInputRef = useRef<HTMLInputElement | null>(null);
+
   const [percentageValue, setPercentageValue] = useState<string>("");
 
-  const isPercentageDisabled = toomanValue !== "";
-  const isToomanValueDisabled = percentageValue !== "";
+  const triggerChangeEventForInput = () => {
+    if (discountInputRef.current) {
+      const input = discountInputRef.current;
 
-  useEffect(() => {
-    handleCalculatePrice({ rows, setFullPrice, setDiscountPrice });
-  }, [rows]);
+      input.value =
+        discountType === "مبلغ" ? formatWithCommas(input.value) : input.value;
 
-  const handleToomanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value;
-    const sanitizedValue = formatWithCommas(
-      convertToNumber(rawValue).toString(),
-    );
+      const syntheticEvent = {
+        target: input,
+      } as React.ChangeEvent<HTMLInputElement>;
 
-    setToomanValue(sanitizedValue);
-
-    if (sanitizedValue === "") {
-      handleCalculatePrice({ rows, setFullPrice, setDiscountPrice });
-    } else {
-      const discount = +convertToNumber(rawValue);
-      setDiscountPrice(() => {
-        const discountPrice = fullPrice - discount;
-        return discountPrice >= 0 ? discountPrice : 0;
-      });
+      handleDiscountChange(syntheticEvent);
     }
   };
 
-  const handlePercentageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    handleCalculatePrice({ rows, setFullPrice, setDiscountPrice });
+    triggerChangeEventForInput();
+  }, [rows]);
+
+  useEffect(() => {
+    triggerChangeEventForInput();
+  }, [discountType]);
+
+  const handleDiscountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
-    const sanitizedValue = convertToNumber(rawValue).toString();
+    let sanitizedValue: string;
+
+    sanitizedValue = convertToNumber(rawValue).toString();
+    if (discountType === "مبلغ") {
+      sanitizedValue = formatWithCommas(sanitizedValue);
+    }
 
     setPercentageValue(sanitizedValue);
 
     if (rawValue === "") {
       handleCalculatePrice({ rows, setFullPrice, setDiscountPrice });
     } else {
-      const percentage = +convertToNumber(rawValue);
+      if (discountType === "مبلغ") {
+        const discount = +convertToNumber(rawValue);
+        setDiscountPrice(() => {
+          const discountPrice = fullPrice - discount;
+          return discountPrice >= 0 ? discountPrice : 0;
+        });
+      } else {
+        const percentage = +convertToNumber(rawValue);
 
-      setDiscountPrice(() => {
-        const discountAmount = fullPrice * (percentage / 100);
-        const discountedValue = fullPrice - discountAmount;
+        setDiscountPrice(() => {
+          const discountAmount = fullPrice * (percentage / 100);
+          const discountedValue = fullPrice - discountAmount;
 
-        return discountedValue >= 0 ? discountedValue : 0;
-      });
+          return discountedValue >= 0 ? discountedValue : 0;
+        });
+      }
     }
   };
 
@@ -80,22 +92,14 @@ const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
           </Typography>
         </Box>
 
-        {/* Discount by Tooman */}
-        <DiscountByTooman
+        <DiscountInput
           textColor={textColor}
+          ref={discountInputRef}
           primaryColor={primaryColor}
-          isToomanDisabled={isToomanValueDisabled}
-          toomanValue={toomanValue}
-          handleToomanChange={handleToomanChange}
-        />
-
-        {/* Discount by Percentage */}
-        <DiscountByPercentage
-          textColor={textColor}
-          primaryColor={primaryColor}
-          isPercentageDisabled={isPercentageDisabled}
           percentageValue={percentageValue}
-          handlePercentageChange={handlePercentageChange}
+          handlePercentageChange={handleDiscountChange}
+          setDiscountType={setDiscountType}
+          discountType={discountType}
         />
       </Box>
 
