@@ -2,7 +2,7 @@ import { Modal } from "antd";
 
 export const showDeleteConfirm = (
   handleRowDeleteRow: () => void,
-  id: string,
+  id: number,
 ) => {
   const { confirm } = Modal;
   confirm({

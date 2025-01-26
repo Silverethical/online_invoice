@@ -234,7 +234,9 @@ const InvoiceTable = ({
           <div className="h-full flex items-center justify-center">
             <DeleteOutlineIcon
               sx={{ cursor: "pointer" }}
-              onClick={() => showDeleteConfirm(handleRowDeleteRow, params.id)}
+              onClick={() =>
+                showDeleteConfirm(handleRowDeleteRow, params.id as number)
+              }
             />
           </div>
         );
