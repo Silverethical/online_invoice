@@ -3,8 +3,21 @@ import { useEffect, useRef, useState } from "react";
 import { formatWithCommas } from "../../helpers/formatWithCommas";
 import { convertToNumber } from "../../helpers/convertToNumber";
 
-function CustomEditComponent(props: GridRenderEditCellParams) {
-  const { id, value: valueProp, field, type, isFormatabble } = props;
+interface EditComponentProps extends GridRenderEditCellParams {
+  valueType: "number" | "string";
+  inputType: "number" | "text";
+  isFormatabble: boolean;
+}
+
+function CustomEditComponent(props: EditComponentProps) {
+  const {
+    id,
+    value: valueProp,
+    field,
+    valueType,
+    inputType,
+    isFormatabble,
+  } = props;
   const inputRef = useRef(null);
   const [formattedValue, setFormattedValue] = useState(
     formatWithCommas(valueProp?.toString() || ""),
@@ -12,30 +25,53 @@ function CustomEditComponent(props: GridRenderEditCellParams) {
   const apiRef = useGridApiContext();
 
   useEffect(() => {
-    console.log(inputRef.current);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (inputType === "number" && valueType === "number" && e.key === "+") {
+        inputRef.current.value = inputRef.current.value + "000";
+      }
+    };
+
     const timeOut = setTimeout(() => {
       inputRef.current.select();
     }, 10);
+
+    inputRef.current.addEventListener("keydown", handleKeyDown);
+
     return () => {
       clearTimeout(timeOut);
     };
   }, []);
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = String(convertToNumber(event.target.value));
+    const inputValue = event.target.value;
+    let changedValue: string;
 
-    if (isFormatabble) {
-      setFormattedValue(formatWithCommas(rawValue));
+    const isFormatabbleInput =
+      (inputType === "text" || inputType === "number") &&
+      valueType === "string";
+
+    if (isFormatabbleInput) {
+      changedValue = isFormatabble
+        ? String(convertToNumber(inputValue))
+        : inputValue;
+    } else if (inputType === "text" && valueType === "number") {
+      changedValue = inputValue;
+    } else if (inputType === "number" && valueType === "number") {
+      changedValue = String(convertToNumber(inputValue));
     } else {
-      setFormattedValue(rawValue);
+      return;
     }
 
-    if (apiRef.current === null) return;
+    setFormattedValue(
+      isFormatabble ? formatWithCommas(changedValue) : changedValue,
+    );
+
+    if (!apiRef.current) return;
 
     apiRef.current.setEditCellValue({
       id,
       field,
-      value: rawValue,
+      value: changedValue,
       debounceMs: 200,
     });
   };
@@ -53,7 +89,7 @@ function CustomEditComponent(props: GridRenderEditCellParams) {
       <input
         ref={inputRef}
         className="outline-none border-none w-full text-[14px] text-center"
-        type={type || "text"}
+        type={inputType || "text"}
         value={formattedValue}
         onChange={handleValueChange}
       />
