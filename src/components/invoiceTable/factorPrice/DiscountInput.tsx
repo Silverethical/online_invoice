@@ -5,7 +5,6 @@ import DiscountToggle from "../DiscountToggle";
 type DiscountInputProps = {
   textColor: string;
   primaryColor: string;
-  percentageValue: string;
   handlePercentageChange: React.ChangeEventHandler<HTMLInputElement>;
   setDiscountType: Function;
   discountType: string;
@@ -16,7 +15,6 @@ const DiscountInput = forwardRef<HTMLInputElement, DiscountInputProps>(
     {
       textColor,
       primaryColor,
-      percentageValue,
       handlePercentageChange,
       setDiscountType,
       discountType,
@@ -44,7 +42,6 @@ const DiscountInput = forwardRef<HTMLInputElement, DiscountInputProps>(
           className="w-[20%] border-none outline-none"
           placeholder={inputPlaceholder}
           type="text"
-          value={percentageValue}
           onChange={handlePercentageChange}
           dir="ltr"
         />
