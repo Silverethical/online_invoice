@@ -1,5 +1,5 @@
 import { GridRowsProp } from "@mui/x-data-grid";
-import { initialRows } from "../invoiceTable/data";
+import { initialRows } from "../../config/initialRows";
 
 export const resetFactor = ({
   setRows,

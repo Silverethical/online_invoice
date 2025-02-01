@@ -11,7 +11,7 @@ import FactorFooter from "./components/factorFooter/FactorFooter";
 import ColorPicker from "./components/colorPicker/ColorPicker";
 import { useState } from "react";
 import InvoiceTable from "./components/invoiceTable/InvoiceTable";
-import { initialRows } from "./components/invoiceTable/data";
+import { initialRows } from "./config/initialRows";
 import { useImmer } from "use-immer";
 
 export type CellProps = {

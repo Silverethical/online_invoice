@@ -12,7 +12,7 @@ import {
 import { useCallback, useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CustomNumeralNumericFormat from "../CustomNumericFormat";
-import { initialRows } from "./data";
+import { initialRows } from "../../config/initialRows";
 import { convertToNumber } from "../../helpers/convertToNumber";
 import { Updater } from "use-immer";
 import FactorPrice from "./factorPrice/FactorPrice";
