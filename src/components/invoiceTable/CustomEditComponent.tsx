@@ -18,28 +18,32 @@ function CustomEditComponent(props: EditComponentProps) {
     inputType,
     isFormatabble,
   } = props;
-  const inputRef = useRef(null);
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [formattedValue, setFormattedValue] = useState(
-    formatWithCommas(valueProp?.toString() || ""),
+    formatWithCommas(valueProp?.toString() || "")
   );
   const apiRef = useGridApiContext();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (inputType === "number" && valueType === "number" && e.key === "+") {
+      if (inputRef.current && inputType === "number" && valueType === "number" && e.key === "+") {
         inputRef.current.value = inputRef.current.value + "000";
       }
     };
 
-    const timeOut = setTimeout(() => {
-      inputRef.current.select();
-    }, 10);
+    if (inputRef.current) {
+      const timeout = setTimeout(() => {
+        inputRef.current?.select();
+      }, 10);
 
-    inputRef.current.addEventListener("keydown", handleKeyDown);
+      inputRef.current.addEventListener("keydown", handleKeyDown);
 
-    return () => {
-      clearTimeout(timeOut);
-    };
+      return () => {
+        clearTimeout(timeout);
+        inputRef.current?.removeEventListener("keydown", handleKeyDown);
+      };
+    }
   }, []);
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,8 +51,7 @@ function CustomEditComponent(props: EditComponentProps) {
     let changedValue: string;
 
     const isFormatabbleInput =
-      (inputType === "text" || inputType === "number") &&
-      valueType === "string";
+      (inputType === "text" || inputType === "number") && valueType === "string";
 
     if (isFormatabbleInput) {
       changedValue = isFormatabble
@@ -62,9 +65,7 @@ function CustomEditComponent(props: EditComponentProps) {
       return;
     }
 
-    setFormattedValue(
-      isFormatabble ? formatWithCommas(changedValue) : changedValue,
-    );
+    setFormattedValue(isFormatabble ? formatWithCommas(changedValue) : changedValue);
 
     if (!apiRef.current) return;
 
