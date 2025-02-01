@@ -9,7 +9,7 @@ import {
   GridColDef,
   GridRenderEditCellParams,
 } from "@mui/x-data-grid";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CustomNumeralNumericFormat from "../CustomNumericFormat";
 import { initialRows } from "./data";
@@ -19,7 +19,6 @@ import FactorPrice from "./factorPrice/FactorPrice";
 import CustomEditComponent from "./CustomEditComponent";
 import reCalculateRowNumbers from "../../helpers/reCalculateRowNumbers";
 import { showDeleteConfirm } from "./showDeleteConfirm";
-import DiscountToggle from "./DiscountToggle";
 import DiscountCell from "./DiscountEditCell";
 
 type InvoiceTableProps = {
@@ -158,7 +157,7 @@ const InvoiceTable = ({
       align: "center",
       headerAlign: "center",
       flex: 0.8,
-      resizable: false,
+      resizable: true,
       cellClassName: "text-[14px]",
       editable: true,
       renderEditCell: (params: GridRenderEditCellParams) => {
