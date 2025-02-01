@@ -21,14 +21,23 @@ function CustomEditComponent(props: EditComponentProps) {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [formattedValue, setFormattedValue] = useState(
-    formatWithCommas(valueProp?.toString() || "")
+    formatWithCommas(valueProp?.toString() || ""),
   );
   const apiRef = useGridApiContext();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (inputRef.current && inputType === "number" && valueType === "number" && e.key === "+") {
-        inputRef.current.value = inputRef.current.value + "000";
+      if (inputRef.current && e.key === "+") {
+        inputRef.current.value += "000";
+        e.preventDefault();
+
+        const event = {
+          target: {
+            value: inputRef.current.value,
+          },
+        } as React.ChangeEvent<HTMLInputElement>;
+
+        handleValueChange(event);
       }
     };
 
@@ -44,14 +53,15 @@ function CustomEditComponent(props: EditComponentProps) {
         inputRef.current?.removeEventListener("keydown", handleKeyDown);
       };
     }
-  }, []);
+  }, [inputType, valueType]);
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     let changedValue: string;
 
     const isFormatabbleInput =
-      (inputType === "text" || inputType === "number") && valueType === "string";
+      (inputType === "text" || inputType === "number") &&
+      valueType === "string";
 
     if (isFormatabbleInput) {
       changedValue = isFormatabble
@@ -65,7 +75,9 @@ function CustomEditComponent(props: EditComponentProps) {
       return;
     }
 
-    setFormattedValue(isFormatabble ? formatWithCommas(changedValue) : changedValue);
+    setFormattedValue(
+      isFormatabble ? formatWithCommas(changedValue) : changedValue,
+    );
 
     if (!apiRef.current) return;
 
