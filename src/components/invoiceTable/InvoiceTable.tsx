@@ -9,7 +9,7 @@ import {
   GridColDef,
   GridRenderEditCellParams,
 } from "@mui/x-data-grid";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CustomNumeralNumericFormat from "../CustomNumericFormat";
 import { initialRows } from "./data";
@@ -19,6 +19,8 @@ import FactorPrice from "./factorPrice/FactorPrice";
 import CustomEditComponent from "./CustomEditComponent";
 import reCalculateRowNumbers from "../../helpers/reCalculateRowNumbers";
 import { showDeleteConfirm } from "./showDeleteConfirm";
+import DiscountToggle from "./DiscountToggle";
+import DiscountCell from "./DiscountEditCell";
 
 type InvoiceTableProps = {
   primaryColor: string;
@@ -126,9 +128,9 @@ const InvoiceTable = ({
       headerName: "ردیف",
       align: "center",
       headerAlign: "center",
-      width: 80,
+      width: 100,
       resizable: false,
-      flex: 0.5,
+      flex: 0.7,
       cellClassName: "font-bold id-cell text-[14px]",
     },
     {
@@ -139,6 +141,16 @@ const InvoiceTable = ({
       flex: 2,
       editable: true,
       cellClassName: "text-[14px]",
+      renderEditCell: (params: GridRenderEditCellParams) => {
+        return (
+          <CustomEditComponent
+            isFormatabble={false}
+            inputType="text"
+            valueType="string"
+            {...params}
+          />
+        );
+      },
     },
     {
       field: "quantity",
@@ -149,16 +161,15 @@ const InvoiceTable = ({
       resizable: false,
       cellClassName: "text-[14px]",
       editable: true,
-      renderCell: (params) => (
-        <div className="h-full flex items-center justify-center">
-          <CustomNumeralNumericFormat
-            value={params.value}
-            thousandSeparator=","
-          />
-        </div>
-      ),
       renderEditCell: (params: GridRenderEditCellParams) => {
-        return <CustomEditComponent {...params} />;
+        return (
+          <CustomEditComponent
+            isFormatabble={false}
+            valueType="number"
+            inputType="number"
+            {...params}
+          />
+        );
       },
     },
     {
@@ -177,7 +188,42 @@ const InvoiceTable = ({
         </div>
       ),
       renderEditCell: (params: GridRenderEditCellParams) => {
-        return <CustomEditComponent {...params} />;
+        return (
+          <CustomEditComponent
+            isFormatabble={true}
+            valueType="string"
+            inputType="text"
+            {...params}
+          />
+        );
+      },
+    },
+    {
+      field: "discount",
+      align: "center",
+      headerAlign: "center",
+      headerName: "تخفیف",
+      flex: 2,
+      editable: true,
+      renderCell: (params) => {
+        return (
+          <DiscountCell
+            {...params}
+            canBeFocused={false}
+            textColor={textColor}
+            primaryColor={primaryColor}
+          />
+        );
+      },
+      renderEditCell: (params: GridRenderEditCellParams) => {
+        return (
+          <DiscountCell
+            {...params}
+            canBeFocused={true}
+            textColor={textColor}
+            primaryColor={primaryColor}
+          />
+        );
       },
     },
     {
@@ -201,6 +247,7 @@ const InvoiceTable = ({
         const totalPrice =
           +convertToNumber(params.row.quantity) *
           +convertToNumber(params.row.price);
+
         return (
           <div className="h-full flex items-center justify-center">
             <CustomNumeralNumericFormat
@@ -220,7 +267,6 @@ const InvoiceTable = ({
       flex: 1,
       renderCell(params) {
         const handleRowDeleteRow = () => {
-          console.log(params);
           if (rows.length === 1) {
             setRows(initialRows);
             return;

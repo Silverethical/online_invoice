@@ -21,13 +21,15 @@ const DiscountToggle = ({
   }, [discountText]);
 
   return (
-    <Box sx={{ backgroundColor: primaryColor }} className="p-0 rounded-full">
+    <Box
+      sx={{ maxHeight: "35px", maxWidth: "45px", backgroundColor: primaryColor }}
+      className="p-0 rounded-full flex items-center justify-center"
+    >
       <Button
         sx={{
           color: textColor,
           fontSize: 12,
           fontWeight: 700,
-          minWidth: "45px",
         }}
         onClick={handleDiscountClick}
       >
