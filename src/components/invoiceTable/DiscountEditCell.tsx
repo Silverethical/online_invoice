@@ -49,13 +49,27 @@ function DiscountCell(props: GridRenderEditCellParams) {
         inputRef.current.select();
       }, 10);
     }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (inputRef.current && e.key === "+") {
+        inputRef.current.value += "000";
+        e.preventDefault();
 
     // inputRef.current.addEventListener("keydown", handleKeyDown);
+    if (inputRef.current) {
+      const timeout = setTimeout(() => {
+        if (canBeFocused) {
+          inputRef?.current?.select();
+        }
+      }, 100);
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
+      inputRef.current.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        clearTimeout(timeout);
+        inputRef.current?.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [canBeFocused]);
 
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
