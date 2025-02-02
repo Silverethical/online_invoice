@@ -197,34 +197,38 @@ const InvoiceTable = ({
         );
       },
     },
-    {
-      field: "discount",
-      align: "center",
-      headerAlign: "center",
-      headerName: "تخفیف",
-      flex: 2,
-      editable: true,
-      renderCell: (params) => {
-        return (
-          <DiscountCell
-            {...params}
-            canBeFocused={false}
-            textColor={textColor}
-            primaryColor={primaryColor}
-          />
-        );
-      },
-      renderEditCell: (params: GridRenderEditCellParams) => {
-        return (
-          <DiscountCell
-            {...params}
-            canBeFocused={true}
-            textColor={textColor}
-            primaryColor={primaryColor}
-          />
-        );
-      },
-    },
+    // {
+    //   field: "discount",
+    //   align: "center",
+    //   headerAlign: "center",
+    //   headerName: "تخفیف",
+    //   flex: 2,
+    //   editable: true,
+    //   renderCell: (params) => {
+    //     return (
+    //       <DiscountCell
+    //         {...params}
+    //         canBeFocused={false}
+    //         textColor={textColor}
+    //         primaryColor={primaryColor}
+    //         rows={rows}
+    //         setRows={setRows}
+    //       />
+    //     );
+    //   },
+    //   renderEditCell: (params: GridRenderEditCellParams) => {
+    //     return (
+    //       <DiscountCell
+    //         {...params}
+    //         canBeFocused={true}
+    //         textColor={textColor}
+    //         primaryColor={primaryColor}
+    //         rows={rows}
+    //         setRows={setRows}
+    //       />
+    //     );
+    //   },
+    // },
     {
       field: "total-amount",
       align: "center",
