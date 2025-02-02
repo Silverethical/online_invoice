@@ -55,6 +55,9 @@ function DiscountCell(props: GridRenderEditCellParams) {
         e.preventDefault();
 
     // inputRef.current.addEventListener("keydown", handleKeyDown);
+      }
+    };
+
     if (inputRef.current) {
       const timeout = setTimeout(() => {
         if (canBeFocused) {
