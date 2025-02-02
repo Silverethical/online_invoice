@@ -1,4 +1,8 @@
-import { GridRenderEditCellParams, useGridApiContext } from "@mui/x-data-grid";
+import {
+  GridRenderEditCellParams,
+  GridRowId,
+  useGridApiContext,
+} from "@mui/x-data-grid";
 import { useEffect, useRef, useState } from "react";
 import { formatWithCommas } from "../../helpers/formatWithCommas";
 import { convertToNumber } from "../../helpers/convertToNumber";
@@ -12,49 +16,30 @@ function DiscountCell(props: GridRenderEditCellParams) {
     textColor,
     primaryColor,
     canBeFocused,
+    rows,
+    setRows,
   } = props;
-  const inputRef = useRef(null);
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [formattedValue, setFormattedValue] = useState(
     formatWithCommas(valueProp?.toString() || ""),
   );
   const apiRef = useGridApiContext();
   const [discountType, setDiscountType] = useState("");
 
-  // const triggerChangeEventForInput = () => {
-  //   if (discountInputRef.current) {
-  //     const input = discountInputRef.current;
-  //
-  //     input.value =
-  //       discountType === "مبلغ" ? formatWithCommas(input.value) : input.value;
-  //
-  //     const syntheticEvent = {
-  //       target: input,
-  //     } as React.ChangeEvent<HTMLInputElement>;
-  //
-  //     handleDiscountChange(syntheticEvent);
-  //   }
-  // };
-
   useEffect(() => {
-    // const handleKeyDown = (e: KeyboardEvent) => {
-    //   if (inputType === "number" && valueType === "number" && e.key === "+") {
-    //     inputRef.current.value = inputRef.current.value + "000";
-    //   }
-    // };
-
-    let timeout: any;
-
-    if (canBeFocused) {
-      timeout = setTimeout(() => {
-        inputRef.current.select();
-      }, 10);
-    }
     const handleKeyDown = (e: KeyboardEvent) => {
       if (inputRef.current && e.key === "+") {
         inputRef.current.value += "000";
         e.preventDefault();
 
-    // inputRef.current.addEventListener("keydown", handleKeyDown);
+        const event = {
+          target: {
+            value: inputRef.current.value,
+          },
+        } as React.ChangeEvent<HTMLInputElement>;
+
+        handleValueChange(event);
       }
     };
 
@@ -81,6 +66,15 @@ function DiscountCell(props: GridRenderEditCellParams) {
     changedValue = formatWithCommas(String(convertToNumber(inputValue)));
     setFormattedValue(changedValue);
 
+    const currentRow = rows.find((row: any) => row.id === id);
+    const discountAmount = calculateDiscount(currentRow, inputValue);
+
+    // FIXME:
+    if (currentRow) {
+      const discountedTotal = currentRow["total-amount"] - discountAmount;
+      updateRowTotal(id, discountedTotal);
+    }
+
     if (!apiRef.current) return;
 
     apiRef.current.setEditCellValue({
@@ -91,6 +85,38 @@ function DiscountCell(props: GridRenderEditCellParams) {
     });
   };
 
+  const calculateDiscount = (row: any, inputValue: string) => {
+    let discountAmount = 0;
+
+    if (row && inputRef.current) {
+      const inputNumber = convertToNumber(inputValue);
+      const total = row["total-amount"];
+
+      // FIXME:
+      if (discountType === "درصد") {
+        // Apply percentage discount
+        discountAmount = total * (+inputNumber / 100);
+      } else if (discountType === "مبلغ") {
+        // Apply flat amount discount
+        discountAmount = +inputNumber;
+      }
+    }
+
+    return discountAmount;
+  };
+
+  const updateRowTotal = (rowId: GridRowId, newTotal: number) => {
+    const rowsShallowCopy = [...rows];
+    const updatedRows = rowsShallowCopy.map((row: any) => {
+      if (row.id === rowId) {
+        return { ...row, "total-amount": newTotal };
+      }
+      return row;
+    });
+
+    setRows(updatedRows);
+  };
+
   return (
     <div
       data-discount-type={discountType}
@@ -98,7 +124,7 @@ function DiscountCell(props: GridRenderEditCellParams) {
     >
       <input
         ref={inputRef}
-        className="outline-none border-none w-full  text-[14px] text-center"
+        className="outline-none border-none w-full text-[14px] text-center"
         type="text"
         value={formattedValue}
         onChange={handleValueChange}
