@@ -12,7 +12,7 @@ type FactorPriceProps = {
 };
 
 const FactorPrice = ({ primaryColor, textColor, rows }: FactorPriceProps) => {
-  const [discountPrice, setDiscountPrice] = useState<number>(0);
+  const [discountPrice, setDiscountPrice] = useState<string>("");
   const [fullPrice, setFullPrice] = useState<number>(0);
   const [discountType, setDiscountType] = useState("");
   const discountInputRef = useRef<HTMLInputElement | null>(null);
