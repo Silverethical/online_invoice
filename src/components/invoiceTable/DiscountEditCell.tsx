@@ -1,14 +1,22 @@
 import {
   GridRenderEditCellParams,
   GridRowId,
+  GridValidRowModel,
   useGridApiContext,
 } from "@mui/x-data-grid";
 import { useEffect, useRef, useState } from "react";
 import { formatWithCommas } from "../../helpers/formatWithCommas";
 import { convertToNumber } from "../../helpers/convertToNumber";
 import DiscountToggle from "./DiscountToggle";
+import { Updater } from "use-immer";
+import { removeCommas } from "../../helpers/removeCommas";
 
-function DiscountCell(props: GridRenderEditCellParams) {
+interface DiscountCellProps extends GridRenderEditCellParams {
+  canBeFocused: boolean;
+  setRows: Updater<readonly GridValidRowModel[]>;
+}
+
+function DiscountCell(props: DiscountCellProps) {
   const {
     id,
     value: valueProp,
@@ -16,7 +24,6 @@ function DiscountCell(props: GridRenderEditCellParams) {
     textColor,
     primaryColor,
     canBeFocused,
-    rows,
     setRows,
   } = props;
 
@@ -59,6 +66,7 @@ function DiscountCell(props: GridRenderEditCellParams) {
     }
   }, [canBeFocused]);
 
+  // FIXME: format based on discountType
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     let changedValue: string;
@@ -66,16 +74,9 @@ function DiscountCell(props: GridRenderEditCellParams) {
     changedValue = formatWithCommas(String(convertToNumber(inputValue)));
     setFormattedValue(changedValue);
 
-    const currentRow = rows.find((row: any) => row.id === id);
-    const discountAmount = calculateDiscount(currentRow, inputValue);
-
-    // FIXME:
-    if (currentRow) {
-      const discountedTotal = currentRow["total-amount"] - discountAmount;
-      updateRowTotal(id, discountedTotal);
-    }
-
     if (!apiRef.current) return;
+
+    changedValue = removeCommas(changedValue);
 
     apiRef.current.setEditCellValue({
       id,
@@ -85,37 +86,14 @@ function DiscountCell(props: GridRenderEditCellParams) {
     });
   };
 
-  const calculateDiscount = (row: any, inputValue: string) => {
-    let discountAmount = 0;
-
-    if (row && inputRef.current) {
-      const inputNumber = convertToNumber(inputValue);
-      const total = row["total-amount"];
-
-      // FIXME:
-      if (discountType === "درصد") {
-        // Apply percentage discount
-        discountAmount = total * (+inputNumber / 100);
-      } else if (discountType === "مبلغ") {
-        // Apply flat amount discount
-        discountAmount = +inputNumber;
+  useEffect(() => {
+    setRows((draft) => {
+      const row = draft.find((row) => row.id === id);
+      if (row) {
+        row["discount-type"] = discountType;
       }
-    }
-
-    return discountAmount;
-  };
-
-  const updateRowTotal = (rowId: GridRowId, newTotal: number) => {
-    const rowsShallowCopy = [...rows];
-    const updatedRows = rowsShallowCopy.map((row: any) => {
-      if (row.id === rowId) {
-        return { ...row, "total-amount": newTotal };
-      }
-      return row;
     });
-
-    setRows(updatedRows);
-  };
+  }, [discountType]);
 
   return (
     <div
