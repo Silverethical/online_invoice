@@ -66,12 +66,14 @@ function DiscountCell(props: DiscountCellProps) {
     }
   }, [canBeFocused]);
 
-  // FIXME: format based on discountType
   const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     let changedValue: string;
 
-    changedValue = formatWithCommas(String(convertToNumber(inputValue)));
+    changedValue =
+      discountType === "مبلغ"
+        ? formatWithCommas(String(convertToNumber(inputValue)))
+        : String(convertToNumber(inputValue));
     setFormattedValue(changedValue);
 
     if (!apiRef.current) return;
@@ -93,6 +95,17 @@ function DiscountCell(props: DiscountCellProps) {
         row["discount-type"] = discountType;
       }
     });
+
+    // Trigger change event when discountType changes
+    if (inputRef.current) {
+      const event = {
+        target: {
+          value: inputRef.current.value,
+        },
+      } as React.ChangeEvent<HTMLInputElement>;
+
+      handleValueChange(event);
+    }
   }, [discountType]);
 
   return (
