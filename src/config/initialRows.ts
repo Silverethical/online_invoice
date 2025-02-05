@@ -7,5 +7,7 @@ export const initialRows: GridRowsProp = [
     quantity: "1",
     price: "",
     "total-amount": "",
+    discount: "0",
+    "discount-type": "درصد",
   },
 ];
