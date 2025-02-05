@@ -2,7 +2,7 @@ import { GridRenderEditCellParams, useGridApiContext } from "@mui/x-data-grid";
 import { useEffect, useRef, useState } from "react";
 import { formatWithCommas } from "../../helpers/formatWithCommas";
 import { convertToNumber } from "../../helpers/convertToNumber";
-import { Box, Input, InputBase } from "@mui/material";
+import { Box, InputBase } from "@mui/material";
 
 interface EditComponentProps extends GridRenderEditCellParams {
   valueType: "number" | "string";
