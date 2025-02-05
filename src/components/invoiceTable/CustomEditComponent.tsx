@@ -2,6 +2,7 @@ import { GridRenderEditCellParams, useGridApiContext } from "@mui/x-data-grid";
 import { useEffect, useRef, useState } from "react";
 import { formatWithCommas } from "../../helpers/formatWithCommas";
 import { convertToNumber } from "../../helpers/convertToNumber";
+import { Box, Input, InputBase } from "@mui/material";
 
 interface EditComponentProps extends GridRenderEditCellParams {
   valueType: "number" | "string";
@@ -98,15 +99,15 @@ function CustomEditComponent(props: EditComponentProps) {
   }, [valueProp]);
 
   return (
-    <div className="h-full flex items-center justify-center">
-      <input
-        ref={inputRef}
+    <Box className="h-full flex items-center justify-center">
+      <InputBase
+        inputRef={inputRef}
         className="outline-none border-none w-full text-[14px] text-center"
         type={inputType || "text"}
         value={formattedValue}
         onChange={handleValueChange}
       />
-    </div>
+    </Box>
   );
 }
 

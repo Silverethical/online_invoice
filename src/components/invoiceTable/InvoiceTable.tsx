@@ -19,7 +19,7 @@ import FactorPrice from "./factorPrice/FactorPrice";
 import CustomEditComponent from "./CustomEditComponent";
 import reCalculateRowNumbers from "../../helpers/reCalculateRowNumbers";
 import { showDeleteConfirm } from "./showDeleteConfirm";
-import DiscountCell from "./DiscountEditCell";
+import DiscountCell from "./DiscountCell";
 
 type InvoiceTableProps = {
   primaryColor: string;

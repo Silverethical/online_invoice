@@ -9,6 +9,8 @@ import { convertToNumber } from "../../helpers/convertToNumber";
 import DiscountToggle from "./DiscountToggle";
 import { Updater } from "use-immer";
 import { removeCommas } from "../../helpers/removeCommas";
+import { Input } from "antd";
+import { Box, InputBase } from "@mui/material";
 
 interface DiscountCellProps extends GridRenderEditCellParams {
   canBeFocused: boolean;
@@ -108,13 +110,13 @@ function DiscountCell(props: DiscountCellProps) {
   }, [discountType]);
 
   return (
-    <div
+    <Box
       data-discount-type={discountType}
       className="h-full w-full max-w-[190px] flex items-center justify-center gap-1 p-3"
     >
-      <input
-        ref={inputRef}
-        className="outline-none border-none w-full text-[14px] text-center"
+      <InputBase
+        inputRef={inputRef}
+        className={`outline-none border-none w-full text-[14px] text-center`}
         type="text"
         value={formattedValue}
         onChange={handleValueChange}
@@ -124,7 +126,7 @@ function DiscountCell(props: DiscountCellProps) {
         primaryColor={primaryColor}
         setDiscountType={setDiscountType}
       />
-    </div>
+    </Box>
   );
 }
 
