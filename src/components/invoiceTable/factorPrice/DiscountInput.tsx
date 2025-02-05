@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, InputBase, Typography } from "@mui/material";
 import { useEffect, useState, forwardRef } from "react";
 import DiscountToggle from "../DiscountToggle";
 
@@ -37,9 +37,9 @@ const DiscountInput = forwardRef<HTMLInputElement, DiscountInputProps>(
             setDiscountType={setDiscountType}
           />
         </Box>
-        <input
-          ref={ref}
-          className="w-[20%] border-none outline-none"
+        <InputBase
+          inputRef={ref}
+          className="w-[40%] border-none outline-none"
           placeholder={inputPlaceholder}
           type="text"
           onChange={handlePercentageChange}
