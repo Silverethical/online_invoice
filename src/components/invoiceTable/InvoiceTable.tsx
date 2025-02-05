@@ -19,7 +19,7 @@ import FactorPrice from "./factorPrice/FactorPrice";
 import CustomEditComponent from "./CustomEditComponent";
 import reCalculateRowNumbers from "../../helpers/reCalculateRowNumbers";
 import { showDeleteConfirm } from "./showDeleteConfirm";
-// import DiscountCell from "./DiscountEditCell";
+import DiscountCell from "./DiscountEditCell";
 
 type InvoiceTableProps = {
   primaryColor: string;
@@ -112,13 +112,34 @@ const InvoiceTable = ({
       if (rowToUpdate) {
         Object.assign(rowToUpdate, newRow);
 
-        rowToUpdate["total-amount"] =
+        const baseTotal =
           +convertToNumber(rowToUpdate.quantity) *
           +convertToNumber(rowToUpdate.price);
+
+        rowToUpdate["total-amount"] = calculateDiscount(rowToUpdate, baseTotal);
       }
     });
 
     return newRow;
+  };
+
+  const calculateDiscount = (row: any, totalAmount: number) => {
+    let discountAmount = 0;
+    const inputNumber = convertToNumber(row.discount);
+
+    if (inputNumber === 0) return totalAmount;
+
+    const discountType = row["discount-type"];
+
+    if (discountType === "درصد") {
+      discountAmount = totalAmount * (+inputNumber / 100);
+    } else if (discountType === "مبلغ") {
+      discountAmount = +inputNumber;
+    }
+
+    const finalPrice = Math.max(totalAmount - discountAmount, 0);
+
+    return finalPrice;
   };
 
   const columns: GridColDef[] = [
@@ -197,38 +218,36 @@ const InvoiceTable = ({
         );
       },
     },
-    // {
-    //   field: "discount",
-    //   align: "center",
-    //   headerAlign: "center",
-    //   headerName: "تخفیف",
-    //   flex: 2,
-    //   editable: true,
-    //   renderCell: (params) => {
-    //     return (
-    //       <DiscountCell
-    //         {...params}
-    //         canBeFocused={false}
-    //         textColor={textColor}
-    //         primaryColor={primaryColor}
-    //         rows={rows}
-    //         setRows={setRows}
-    //       />
-    //     );
-    //   },
-    //   renderEditCell: (params: GridRenderEditCellParams) => {
-    //     return (
-    //       <DiscountCell
-    //         {...params}
-    //         canBeFocused={true}
-    //         textColor={textColor}
-    //         primaryColor={primaryColor}
-    //         rows={rows}
-    //         setRows={setRows}
-    //       />
-    //     );
-    //   },
-    // },
+    {
+      field: "discount",
+      align: "center",
+      headerAlign: "center",
+      headerName: "تخفیف",
+      flex: 2,
+      editable: true,
+      renderCell: (params) => {
+        return (
+          <DiscountCell
+            {...params}
+            canBeFocused={false}
+            textColor={textColor}
+            primaryColor={primaryColor}
+            setRows={setRows}
+          />
+        );
+      },
+      renderEditCell: (params: GridRenderEditCellParams) => {
+        return (
+          <DiscountCell
+            {...params}
+            canBeFocused={true}
+            textColor={textColor}
+            primaryColor={primaryColor}
+            setRows={setRows}
+          />
+        );
+      },
+    },
     {
       field: "total-amount",
       align: "center",
@@ -247,9 +266,13 @@ const InvoiceTable = ({
         </div>
       ),
       renderCell: (params) => {
-        const totalPrice =
+        let totalPrice =
           +convertToNumber(params.row.quantity) *
           +convertToNumber(params.row.price);
+
+        const newTotal = calculateDiscount(params.row, totalPrice);
+
+        totalPrice = newTotal;
 
         return (
           <div className="h-full flex items-center justify-center">
