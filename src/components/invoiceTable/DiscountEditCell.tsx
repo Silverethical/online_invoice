@@ -1,6 +1,5 @@
 import {
   GridRenderEditCellParams,
-  GridRowId,
   GridValidRowModel,
   useGridApiContext,
 } from "@mui/x-data-grid";
