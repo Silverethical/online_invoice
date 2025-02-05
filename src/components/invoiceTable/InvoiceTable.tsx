@@ -375,7 +375,7 @@ const InvoiceTable = ({
           {/* card number details */}
           <p></p>
 
-          <div id="factorPrice" className="flex flex-col w-fit w-[30%]">
+          <div id="factorPrice" className="flex flex-col w-[30%]">
             {/* price section */}
             <FactorPrice
               primaryColor={primaryColor}
