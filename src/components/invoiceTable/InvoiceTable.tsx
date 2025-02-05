@@ -151,7 +151,7 @@ const InvoiceTable = ({
       width: 100,
       resizable: false,
       flex: 0.7,
-      cellClassName: "font-bold id-cell text-[14px]",
+      cellClassName: "font-bold id-cell text-[14px] select-none",
     },
     {
       field: "product-name",
@@ -275,7 +275,7 @@ const InvoiceTable = ({
         totalPrice = newTotal;
 
         return (
-          <div className="h-full flex items-center justify-center">
+          <div className="h-full flex items-center justify-center select-none">
             <CustomNumeralNumericFormat
               value={totalPrice}
               thousandSeparator=","
