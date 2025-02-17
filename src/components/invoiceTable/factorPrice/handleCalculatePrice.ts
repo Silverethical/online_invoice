@@ -23,8 +23,8 @@ export const handleCalculatePrice = ({
   );
 
   if (!discountInputRef.current) {
-    setFullPrice(total);
-    setDiscountPrice(formatWithCommas(String(total)));
+    setFullPrice(Math.ceil(total));
+    setDiscountPrice(formatWithCommas(String(Math.ceil(total))));
     return;
   }
 
@@ -36,7 +36,7 @@ export const handleCalculatePrice = ({
       : String(rawDiscountValue);
 
   discountInputRef.current.value = formattedDiscountValue;
-  setDiscountPrice(formattedDiscountValue);
+  setDiscountPrice(String(Math.ceil(Number(formattedDiscountValue))));
 
   const discountAmount =
     discountType === "درصد"
@@ -45,6 +45,6 @@ export const handleCalculatePrice = ({
 
   const finalPrice = Math.max(total - +discountAmount, 0);
 
-  setFullPrice(total);
-  setDiscountPrice(formatWithCommas(String(finalPrice)));
+  setFullPrice(Math.ceil(total));
+  setDiscountPrice(formatWithCommas(String(Math.ceil(finalPrice))));
 };
