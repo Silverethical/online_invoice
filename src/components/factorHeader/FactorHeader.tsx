@@ -3,6 +3,7 @@ import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 type inputDataType = {
   name: string;
@@ -81,7 +82,16 @@ const FactorHeader = ({
   };
 
   const imgFileHandler = (e: any) => {
-    uploadImg(URL.createObjectURL(e.target.files[0]));
+    const fileType = e.target.files[0].type;
+    const isImage = fileType.split("/")[0] === "image";
+
+    if (isImage) {
+      uploadImg(URL.createObjectURL(e.target.files[0]));
+    } else {
+      toast.error(
+        "فرمت فایل انتخاب‌شده پشتیبانی نمی‌شود. لطفاً یک تصویر انتخاب کنید.",
+      );
+    }
   };
 
   const headerColClassName = "flex flex-col gap-5";

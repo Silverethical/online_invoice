@@ -361,7 +361,7 @@ const InvoiceTable = ({
             id="cardNumberDetails"
             className="w-full flex justify-between gap-[20px]"
           >
-            <p className="max-w-[400px] flex flex-col gap-10">
+            <p className="max-w-[350px] flex flex-col gap-10">
               <span>
                 مشتری گرامی، لطفاً مبلغ فاکتور را به شماره کارت رو به رو واریز
                 فرمایید.
@@ -371,7 +371,7 @@ const InvoiceTable = ({
             <img
               src="/images/general/chap-card.png"
               alt="cardNumber"
-              className="w-[300px]"
+              className="w-[320px]"
             />
           </div>
 
