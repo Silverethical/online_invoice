@@ -355,27 +355,44 @@ const InvoiceTable = ({
             },
           }}
         />
-        <Button
-          sx={{
-            borderRadius: "10px",
-            color: "black",
-            width: "30%",
-            borderColor: "#ccc",
-            "&:hover": {
-              backgroundColor: primaryColor,
-              color: textColor || "white",
-            },
-          }}
-          onClick={() => handleAddNewRow({ setRows })}
-          variant="outlined"
-        >
-          اضافه کردن ردیف
-        </Button>
-        <div className="w-full flex justify-between">
+        <div className="w-full flex justify-between gap-[50px] mt-[15px]">
           {/* card number details */}
-          <p></p>
+          <div
+            id="cardNumberDetails"
+            className="w-full flex justify-between gap-[20px]"
+          >
+            <p className="max-w-[400px] flex flex-col gap-10">
+              <span>
+                مشتری گرامی، لطفاً مبلغ فاکتور را به شماره کارت رو به رو واریز
+                فرمایید.
+              </span>
+              <span>با تشکر از حسن انتخاب شما</span>
+            </p>
+            <img
+              src="/images/general/chap-card.png"
+              alt="cardNumber"
+              className="w-[300px]"
+            />
+          </div>
 
           <div id="factorPrice" className="flex flex-col w-[30%]">
+            <Button
+              sx={{
+                borderRadius: "10px",
+                color: "black",
+                borderColor: "#ccc",
+                "&:hover": {
+                  backgroundColor: primaryColor,
+                  color: textColor || "white",
+                },
+                marginBottom: "10px",
+              }}
+              onClick={() => handleAddNewRow({ setRows })}
+              variant="outlined"
+            >
+              اضافه کردن ردیف
+            </Button>
+
             {/* price section */}
             <FactorPrice
               primaryColor={primaryColor}
