@@ -13,6 +13,7 @@ import { useState } from "react";
 import InvoiceTable from "./components/invoiceTable/InvoiceTable";
 import { initialRows } from "./config/initialRows";
 import { useImmer } from "use-immer";
+import { Toaster } from "react-hot-toast";
 
 export type CellProps = {
   id: string;
@@ -43,6 +44,7 @@ const App = () => {
           id="factor"
           className="my-[3%] grid gap-[24px] overflow-x-auto p-5 md:p-0"
         >
+          <Toaster position="top-center" />
           <FactorHeader primaryColor={primaryColor} textColor={textColor} />
           <InvoiceTable
             rows={rows}
